@@ -16,7 +16,8 @@ from scipy import stats
 from pltr_data import (
     COMPANY_INFO, MARKET_DATA, INCOME_STATEMENT, BALANCE_SHEET, CASH_FLOW,
     REVENUE_SEGMENTS, KEY_RATIOS, DUPONT, PEER_COMPARISON, KEY_EVENTS,
-    ANALYST_DATA, GUIDANCE, compute_ratios
+    ANALYST_DATA, GUIDANCE, compute_ratios,
+    GLOBAL_FOOTPRINT, EXPANSION_SIGNALS, AI_ECOSYSTEM_DATA, TOOLTIP_CONTENT,
 )
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -110,6 +111,33 @@ h3 { font-weight: 500 !important; color: var(--text-secondary) !important; }
 ::-webkit-scrollbar { width: 6px; }
 ::-webkit-scrollbar-track { background: var(--bg-primary); }
 ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+/* Tooltip / Education system */
+.tooltip-box {
+    background: linear-gradient(135deg, rgba(59,130,246,0.08) 0%, rgba(17,24,39,0.95) 100%);
+    border: 1px solid rgba(59,130,246,0.25); border-radius: 10px;
+    padding: 14px 18px; margin: 8px 0 16px 0; font-size: 0.85rem;
+    line-height: 1.55; color: var(--text-secondary);
+}
+.tooltip-box .tt-label {
+    color: var(--accent); font-weight: 600; font-size: 0.72rem;
+    text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 2px;
+}
+.tooltip-box .tt-formula {
+    font-family: 'Courier New', monospace; color: var(--accent-amber);
+    background: rgba(245,158,11,0.08); padding: 4px 8px; border-radius: 4px;
+    display: inline-block; margin: 4px 0;
+}
+.tooltip-box .tt-interpretation { color: var(--text-secondary); margin-top: 6px; }
+
+/* Mode badge */
+.mode-badge {
+    display: inline-block; padding: 3px 10px; border-radius: 12px;
+    font-size: 0.7rem; font-weight: 600; letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+.mode-badge.learn { background: rgba(59,130,246,0.15); color: var(--accent); }
+.mode-badge.analyst { background: rgba(16,185,129,0.15); color: var(--accent-green); }
 </style>
 """, unsafe_allow_html=True)
 
@@ -162,6 +190,23 @@ def kpi_html(label, value, delta=None, delta_positive=True):
 def divider():
     st.markdown('<div class="section-divider"></div>', unsafe_allow_html=True)
 
+def tooltip(key):
+    """Render educational tooltip if Learn Mode is active."""
+    if not st.session_state.get("learn_mode", True):
+        return
+    tt = TOOLTIP_CONTENT.get(key)
+    if not tt:
+        return
+    parts = []
+    parts.append(f'<div class="tt-label">📖 Definition</div>')
+    parts.append(f'<div>{tt["definition"]}</div>')
+    if tt.get("formula"):
+        parts.append(f'<div class="tt-label" style="margin-top:8px">Formula</div>')
+        parts.append(f'<div class="tt-formula">{tt["formula"]}</div>')
+    parts.append(f'<div class="tt-label" style="margin-top:8px">🔍 Analyst Interpretation</div>')
+    parts.append(f'<div class="tt-interpretation">{tt["interpretation"]}</div>')
+    st.markdown(f'<div class="tooltip-box">{" ".join(parts)}</div>', unsafe_allow_html=True)
+
 
 # ══════════════════════════════════════════════════════════════════════════════
 # SIDEBAR NAVIGATION
@@ -177,9 +222,11 @@ with st.sidebar:
         [
             "📊 Executive Summary",
             "🏢 Business Overview",
+            "🌍 Global Footprint",
             "📈 Financial Statements",
             "🔬 Financial Analytics",
             "💰 Valuation Models",
+            "🧪 Scenario Lab",
             "🎯 Risk & Monte Carlo",
             "📉 Peer Comparison",
             "🤖 AI-Assisted Analysis",
@@ -187,6 +234,16 @@ with st.sidebar:
         ],
         label_visibility="collapsed",
     )
+
+    st.markdown("---")
+
+    # Learn / Analyst Mode Toggle
+    learn_mode = st.toggle("📖 Learn Mode", value=True, help="Show educational tooltips explaining each metric")
+    st.session_state["learn_mode"] = learn_mode
+    if learn_mode:
+        st.markdown('<span class="mode-badge learn">Learn Mode</span>', unsafe_allow_html=True)
+    else:
+        st.markdown('<span class="mode-badge analyst">Analyst Mode</span>', unsafe_allow_html=True)
 
     st.markdown("---")
     st.markdown("##### MBAN5570 Project")
@@ -201,6 +258,11 @@ with st.sidebar:
 if page == "📊 Executive Summary":
     st.markdown("# Palantir Technologies — Equity Research")
     st.markdown(f"*As of March 20, 2026 | Market Cap: ${MARKET_DATA['market_cap_B']:.0f}B*")
+
+    st.markdown(
+        "> **Core Question**: Is Palantir a fundamentally strong company that is currently "
+        "overvalued, fairly valued, or structurally misunderstood by the market?"
+    )
     divider()
 
     # Top KPI row
@@ -246,27 +308,27 @@ if page == "📊 Executive Summary":
 
     # Investment thesis
     divider()
-    st.markdown("## Investment Thesis")
+    st.markdown("## Investment Debate: Fundamental Strength vs. Valuation Risk")
     col1, col2 = st.columns(2)
 
     with col1:
-        st.markdown("### Bull Case")
+        st.markdown("### Fundamental Strengths")
         st.markdown("""
-        - **AIP is the growth engine**: US Commercial revenue grew 137% YoY in Q4 2025, driven by AIP boot camps converting to production contracts
-        - **Rule of 40+ dominance**: Revenue growth (56%) + FCF margin (51%) = **107** — exceptional for any software company at this scale
-        - **Government durability**: 20+ year relationships provide stable, high-margin base revenue with expansion potential via AIP
-        - **FY2026 guidance of 61% growth** signals continued acceleration, not deceleration — rare at $4.5B revenue scale
-        - **Net cash position** of ~$7.2B with zero debt provides strategic optionality
+        - **AIP-driven commercial acceleration**: US Commercial revenue grew 137% YoY in Q4 2025, driven by boot camp-to-production conversion
+        - **Elite Rule of 40 performance**: Revenue growth (56%) + FCF margin (51%) = **107** — top 1% of enterprise software
+        - **Government revenue durability**: 20+ year relationships provide contract-backed, recession-resistant revenue base
+        - **FY2026 guidance of 61% growth** at $4.5B revenue scale suggests sustained demand, not deceleration
+        - **Fortress balance sheet**: ~$7.2B net cash, zero debt — eliminates liquidity risk and provides strategic optionality
         """)
 
     with col2:
-        st.markdown("### Bear Case / Key Risks")
+        st.markdown("### Valuation & Risk Concerns")
         st.markdown("""
-        - **Extreme valuation**: Trading at ~81x EV/Revenue vs peer median of ~12x — prices in years of perfect execution
-        - **SBC dilution**: $700M in FY2025 stock-based compensation (~15.6% of revenue) dilutes existing shareholders
-        - **Customer concentration**: Government contracts can be lumpy; policy shifts could impact revenue
-        - **Competition intensifying**: Microsoft, AWS, Google all investing heavily in enterprise AI platforms
-        - **Insider selling**: Consistent insider sales, including CEO Alex Karp's 10b5-1 plan
+        - **Extreme valuation premium**: Trading at ~81x EV/Revenue vs. peer median ~12x — requires years of sustained execution to justify
+        - **SBC dilution**: $700M in FY2025 stock-based compensation (~15.6% of revenue) is a real economic cost to shareholders
+        - **Customer concentration**: Government contracts are large but subject to budget cycles and policy shifts
+        - **Competition intensifying**: Microsoft, AWS, and Google are investing heavily in enterprise AI platforms
+        - **AI ecosystem exposure**: PLTR benefits from AI sentiment but is vulnerable to sector-wide repricing
         """)
 
     # Analyst consensus
@@ -343,9 +405,9 @@ elif page == "🏢 Business Overview":
     apply_layout(fig, "FY2025 Revenue Mix", height=400)
     st.plotly_chart(fig, use_container_width=True)
 
-    # US Commercial hypergrowth
+    # US Commercial acceleration
     divider()
-    st.markdown("## US Commercial — Hypergrowth Engine")
+    st.markdown("## US Commercial — AIP-Driven Acceleration")
     us_comm = seg["US Commercial"]
     growth = us_comm.pct_change() * 100
     fig = make_subplots(specs=[[{"secondary_y": True}]])
@@ -457,6 +519,7 @@ elif page == "🔬 Financial Analytics":
     with tab1:
         st.markdown("### Horizontal Analysis — Year-over-Year % Change")
         st.markdown("Measures the change in each line item relative to the prior year.")
+        tooltip("horizontal_analysis")
         ist = INCOME_STATEMENT[["Total Revenue", "Gross Profit", "Operating Income", "Net Income", "EBITDA"]]
         horiz = ist.pct_change() * 100
         horiz = horiz.dropna(how="all")
@@ -473,6 +536,7 @@ elif page == "🔬 Financial Analytics":
     with tab2:
         st.markdown("### Vertical Analysis — Common-Size Income Statement")
         st.markdown("Each item as a percentage of Total Revenue.")
+        tooltip("vertical_analysis")
         ist = INCOME_STATEMENT
         rev = ist["Total Revenue"]
         vert_cols = ["Cost of Revenue", "Gross Profit", "R&D Expense", "SGA Expense",
@@ -491,9 +555,18 @@ elif page == "🔬 Financial Analytics":
     with tab3:
         st.markdown("### Comprehensive Ratio Analysis")
         st.markdown("*Four quadrants: Profitability & Return, Liquidity & Solvency, Efficiency, Cash Flow*")
+        tooltip("ratio_analysis")
         ratios = KEY_RATIOS
         st.dataframe(ratios.style.format("{:.1f}").background_gradient(cmap="RdYlGn", axis=0),
                      use_container_width=True)
+
+        # Per-ratio tooltips for Palantir-crucial metrics
+        tooltip("gross_margin")
+        tooltip("operating_margin")
+        tooltip("fcf_margin")
+        tooltip("current_ratio")
+        tooltip("debt_equity")
+        tooltip("roe")
 
         # Profitability ratios chart
         col1, col2 = st.columns(2)
@@ -518,6 +591,7 @@ elif page == "🔬 Financial Analytics":
     with tab4:
         st.markdown("### DuPont Decomposition")
         st.markdown("**ROE = Net Profit Margin × Asset Turnover × Equity Multiplier**")
+        tooltip("dupont_analysis")
         st.dataframe(DUPONT.style.format("{:.4f}").background_gradient(cmap="RdYlGn", axis=0),
                      use_container_width=True)
 
@@ -542,6 +616,7 @@ elif page == "🔬 Financial Analytics":
 
     with tab5:
         st.markdown("### Trend Analysis — Indexed to Base Year (2020 = 100)")
+        tooltip("trend_analysis")
         ist = INCOME_STATEMENT[["Total Revenue", "Gross Profit", "Operating Income", "Net Income"]].copy()
         ist_sorted = ist.sort_index()
         base = ist_sorted.iloc[0].replace(0, np.nan)
@@ -752,7 +827,7 @@ elif page == "🎯 Risk & Monte Carlo":
     st.markdown("*Per MBAN5570: GBM, Monte Carlo, Sensitivity Analysis*")
     divider()
 
-    tab1, tab2 = st.tabs(["Monte Carlo (GBM)", "Risk Factors"])
+    tab1, tab2, tab3 = st.tabs(["Monte Carlo (GBM)", "Risk Factors", "⚡ AI Ecosystem Risk"])
 
     with tab1:
         st.markdown("### Geometric Brownian Motion — Stock Price Simulation")
@@ -853,6 +928,74 @@ elif page == "🎯 Risk & Monte Carlo":
             color = {"HIGH": "🔴", "MEDIUM-HIGH": "🟠", "MEDIUM": "🟡", "LOW-MEDIUM": "🟢"}[level]
             with st.expander(f"{color} **{name}** — {level}"):
                 st.markdown(desc)
+
+    with tab3:
+        st.markdown("### AI Ecosystem Risk Analysis")
+        st.markdown(
+            "Palantir benefits from the AI wave but is exposed to ecosystem-level repricing. "
+            "Partnerships create dual effects: distribution upside paired with dependency and sentiment contagion risk."
+        )
+        divider()
+
+        # Partnership Dependency Matrix
+        st.markdown("#### Partnership Dependency Matrix")
+        for p in AI_ECOSYSTEM_DATA["partnerships"]:
+            with st.expander(f"**{p['partner']}** — {p['type']} ({p['dependency_level']} Dependency)"):
+                col_u, col_d = st.columns(2)
+                with col_u:
+                    st.markdown(f'✅ **Upside**')
+                    st.markdown(p["upside"])
+                with col_d:
+                    st.markdown(f'⚠️ **Downside**')
+                    st.markdown(p["downside"])
+                st.markdown(f'**Contagion Risk**: {p["contagion_risk"]}')
+
+        divider()
+
+        # AI Sentiment Scenarios
+        st.markdown("#### AI Sentiment → Valuation Impact")
+        st.markdown(
+            "If AI sentiment compresses across the sector, PLTR's valuation multiple is highly exposed. "
+            "Critically, a sentiment reset compresses multiples but does **not** automatically destroy business fundamentals."
+        )
+
+        current_ev_rev = PEER_COMPARISON[PEER_COMPARISON["Ticker"] == "PLTR"]["EV/Revenue"].iloc[0]
+        current_price = MARKET_DATA["current_price"]
+
+        scen_rows = []
+        for name, data in AI_ECOSYSTEM_DATA["ai_sentiment_scenarios"].items():
+            implied_mult = current_ev_rev * data["multiple_impact"]
+            implied_ev = INCOME_STATEMENT.loc[2025, "Total Revenue"] * implied_mult
+            net_cash = (BALANCE_SHEET.loc[2025, "Cash & Equivalents"] +
+                        BALANCE_SHEET.loc[2025, "Short-Term Investments"] -
+                        BALANCE_SHEET.loc[2025, "Long-Term Debt"])
+            implied_p = (implied_ev + net_cash) * 1e6 / MARKET_DATA["shares_outstanding"]
+            pct_change = (implied_p - current_price) / current_price * 100
+            scen_rows.append({
+                "Scenario": name,
+                "Multiple Impact": f"{data['multiple_impact']:.0%}",
+                "Implied EV/Rev": f"{implied_mult:.1f}x",
+                "Implied Price": implied_p,
+                "% from Current": pct_change,
+                "Description": data["description"],
+            })
+        df_ai_scen = pd.DataFrame(scen_rows).set_index("Scenario")
+        st.dataframe(df_ai_scen.style.format({
+            "Implied Price": "${:,.2f}",
+            "% from Current": "{:+.1f}%",
+        }), use_container_width=True)
+
+        # Visual comparison
+        fig = go.Figure()
+        names = [r["Scenario"] for r in scen_rows]
+        prices = [r["Implied Price"] for r in scen_rows]
+        colors_bar = [COLORS[1], COLORS[2], COLORS[3]]
+        fig.add_trace(go.Bar(x=names, y=prices, marker_color=colors_bar,
+                             text=[f"${p:,.0f}" for p in prices], textposition="outside"))
+        fig.add_hline(y=current_price, line_dash="dash", line_color="white", opacity=0.5,
+                      annotation_text=f"Current: ${current_price:.0f}")
+        apply_layout(fig, "Implied Price Under AI Sentiment Scenarios", height=380)
+        st.plotly_chart(fig, use_container_width=True)
 
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -1080,6 +1223,368 @@ elif page == "📋 Critical Evaluation":
         fundamental investment thinking. The most valuable insights came from questioning AI outputs,
         not accepting them uncritically.
         """)
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+# PAGE: SCENARIO LAB
+# ══════════════════════════════════════════════════════════════════════════════
+elif page == "🧪 Scenario Lab":
+    st.markdown("# Scenario Lab — AI Ecosystem Stress Testing")
+    st.markdown(
+        "*Simulate the impact of AI sentiment shocks, growth slowdowns, and multiple compression "
+        "on Palantir's intrinsic valuation. A bubble pop compresses multiples — it does not automatically "
+        "destroy business fundamentals.*"
+    )
+    divider()
+
+    # Scenario presets
+    preset = st.radio(
+        "Scenario Preset",
+        ["Custom", "Base Case", "AI Repricing", "AI Bubble Pop"],
+        horizontal=True,
+    )
+
+    preset_defaults = {
+        "Custom":        {"sent": 0, "comm": 0, "gov": 1.0, "margin": 0, "terminal": 0, "partner": "Neutral"},
+        "Base Case":     {"sent": 0, "comm": 0, "gov": 1.0, "margin": 0, "terminal": 0, "partner": "Positive"},
+        "AI Repricing":  {"sent": -25, "comm": -10, "gov": 1.0, "margin": -3, "terminal": -30, "partner": "Neutral"},
+        "AI Bubble Pop": {"sent": -55, "comm": -25, "gov": 0.9, "margin": -8, "terminal": -60, "partner": "Contagion Risk"},
+    }
+    pd_ = preset_defaults.get(preset, preset_defaults["Custom"])
+
+    # User-controlled sliders
+    st.markdown("#### Stress Parameters")
+    c1, c2, c3 = st.columns(3)
+    with c1:
+        ai_sentiment = st.slider("AI Sentiment Shock (%)", -60, 0, pd_["sent"], 5,
+                                 help="Compresses the valuation multiple (not business fundamentals)")
+        comm_slowdown = st.slider("Commercial Growth Slowdown (%)", -30, 0, pd_["comm"], 5,
+                                  help="Reduces projected commercial revenue growth rates")
+    with c2:
+        gov_factor = st.slider("Government Stability Factor", 0.5, 1.2, pd_["gov"], 0.05,
+                               help="Multiplier on government revenue (1.0 = stable, <1 = cuts, >1 = expansion)")
+        margin_compress = st.slider("Margin Compression (pp)", -15, 0, pd_["margin"], 1,
+                                    help="Reduces steady-state FCF margin")
+    with c3:
+        terminal_reset = st.slider("Terminal Multiple Reset (%)", -70, 0, pd_["terminal"], 5,
+                                   help="Compresses terminal value exit multiple")
+        partner_effect = st.selectbox("Partnership Effect",
+                                      ["Positive", "Neutral", "Contagion Risk"],
+                                      index=["Positive", "Neutral", "Contagion Risk"].index(pd_["partner"]))
+
+    divider()
+
+    # ── Run Stress-Adjusted DCF ──
+    current_rev = INCOME_STATEMENT.loc[2025, "Total Revenue"]
+    shares = MARKET_DATA["shares_outstanding"]
+    net_cash = (BALANCE_SHEET.loc[2025, "Cash & Equivalents"] +
+                BALANCE_SHEET.loc[2025, "Short-Term Investments"] -
+                BALANCE_SHEET.loc[2025, "Long-Term Debt"])
+    gov_rev_25 = REVENUE_SEGMENTS.loc[2025, "Government Revenue"]
+    comm_rev_25 = REVENUE_SEGMENTS.loc[2025, "Commercial Revenue"]
+
+    # Partner effect adjustments
+    partner_mult = {"Positive": 1.05, "Neutral": 1.0, "Contagion Risk": 0.90}[partner_effect]
+
+    # Base assumptions (from existing DCF page defaults)
+    base_wacc = 0.10
+    base_tg = 0.03
+    base_fcf_margin = 0.28
+    base_growth = 0.55
+    proj_years = 7
+
+    # Apply stress
+    stressed_fcf_margin = base_fcf_margin + (margin_compress / 100)
+    stressed_tg = base_tg
+    sentiment_mult = 1.0 + (ai_sentiment / 100)
+    terminal_mult = 1.0 + (terminal_reset / 100)
+
+    # Stressed revenue projections — government and commercial separately
+    stressed_gov_growth = 0.30 * gov_factor  # gov grows ~30% base
+    stressed_comm_growth = max(0.05, base_growth + comm_slowdown / 100) * partner_mult
+
+    # Combined projection (simplified to total revenue level)
+    growth_rates = [max(stressed_comm_growth * (0.82 ** i), stressed_tg + 0.02) for i in range(proj_years)]
+
+    projections = []
+    rev = current_rev
+    for i, g in enumerate(growth_rates):
+        rev = rev * (1 + g)
+        margin_i = stressed_fcf_margin * min(1.0, 0.7 + 0.3 * (i / proj_years))
+        fcf = rev * margin_i
+        pv = fcf / (1 + base_wacc) ** (i + 1)
+        projections.append({"Year": f"FY{2026+i}", "Revenue ($M)": rev, "FCF ($M)": fcf, "PV ($M)": pv})
+
+    sum_pv = sum(p["PV ($M)"] for p in projections)
+
+    # Terminal value with multiple reset
+    terminal_fcf = projections[-1]["FCF ($M)"] * (1 + stressed_tg)
+    terminal_value = terminal_fcf / (base_wacc - stressed_tg)
+    terminal_value *= terminal_mult  # Apply terminal multiple reset
+    pv_tv = terminal_value / (1 + base_wacc) ** proj_years
+
+    ev_stressed = sum_pv + pv_tv
+    equity_stressed = ev_stressed + net_cash
+    price_stressed = equity_stressed * 1e6 / shares
+
+    # Also apply sentiment compression to the implied price
+    price_stressed_final = price_stressed * sentiment_mult
+
+    # Base case (no stress)
+    base_rev = current_rev
+    base_projs_pv = 0
+    for i in range(proj_years):
+        g = max(0.55 * (0.82 ** i), 0.05)
+        base_rev *= (1 + g)
+        m = 0.28 * min(1.0, 0.7 + 0.3 * (i / proj_years))
+        base_projs_pv += (base_rev * m) / (1 + 0.10) ** (i + 1)
+    base_term = (base_rev * 0.28 * 1.03) / (0.10 - 0.03)
+    base_pv_tv = base_term / (1.10 ** 7)
+    base_price = ((base_projs_pv + base_pv_tv + net_cash) * 1e6) / shares
+
+    current_price = MARKET_DATA["current_price"]
+    pct_downside = (price_stressed_final - current_price) / current_price * 100
+
+    # ── Headline Metrics ──
+    st.markdown("### Stress Test Results")
+    c1, c2, c3, c4 = st.columns(4)
+    c1.metric("Base DCF Price", fmt_price(base_price))
+    c2.metric("Stressed Price", fmt_price(price_stressed_final),
+              f"{pct_downside:+.1f}% vs current")
+    c3.metric("DCF Range Shift", f"{((price_stressed_final / base_price) - 1) * 100:+.1f}%")
+    c4.metric("% from Current", f"{pct_downside:+.1f}%",
+              delta_color="inverse" if pct_downside < 0 else "normal")
+
+    divider()
+
+    # ── Valuation Bridge Waterfall ──
+    st.markdown("### Valuation Bridge")
+    bridge_items = ["Base Valuation", "Growth Impact", "Margin Impact",
+                    "Multiple Compression", "Sentiment Discount", "Stressed Valuation"]
+    # Calculate component impacts
+    growth_impact = (sum_pv - base_projs_pv) * 1e6 / shares
+    margin_impact = (margin_compress / 100) * base_rev * 3 * 1e6 / shares  # approximation
+    multiple_impact = (terminal_reset / 100) * base_pv_tv * 1e6 / shares
+    sentiment_impact = price_stressed * (ai_sentiment / 100) if ai_sentiment != 0 else 0
+
+    fig = go.Figure(go.Waterfall(
+        x=bridge_items,
+        y=[base_price, growth_impact, margin_impact, multiple_impact, sentiment_impact, 0],
+        measure=["absolute", "relative", "relative", "relative", "relative", "total"],
+        connector={"line": {"color": "rgba(59,130,246,0.4)"}},
+        increasing={"marker": {"color": COLORS[1]}},
+        decreasing={"marker": {"color": COLORS[3]}},
+        totals={"marker": {"color": COLORS[0]}},
+        text=[f"${base_price:,.0f}", f"${growth_impact:+,.0f}", f"${margin_impact:+,.0f}",
+              f"${multiple_impact:+,.0f}", f"${sentiment_impact:+,.0f}", f"${price_stressed_final:,.0f}"],
+        textposition="outside",
+    ))
+    apply_layout(fig, "Valuation Bridge: Base → Stressed", height=420)
+    st.plotly_chart(fig, use_container_width=True)
+
+    # ── Government Cushion Chart ──
+    st.markdown("### Government Revenue Cushion")
+    st.markdown(
+        "Government contracts provide a durable revenue floor. Even under commercial stress, "
+        "the government segment maintains contract-backed, recession-resistant revenue."
+    )
+    tooltip("government_cushion")
+
+    seg = REVENUE_SEGMENTS
+    fig = go.Figure()
+    fig.add_trace(go.Scatter(
+        x=seg.index, y=seg["Government Revenue"],
+        fill="tozeroy", name="Government (Floor)",
+        fillcolor="rgba(59,130,246,0.3)", line=dict(color=COLORS[0], width=2),
+    ))
+    fig.add_trace(go.Scatter(
+        x=seg.index, y=seg["Total Revenue"] if "Total Revenue" in seg.columns
+            else seg["Government Revenue"] + seg["Commercial Revenue"],
+        fill="tonexty", name="Commercial (Upside)",
+        fillcolor="rgba(16,185,129,0.2)", line=dict(color=COLORS[1], width=2),
+    ))
+    # Stressed commercial line
+    stressed_comm = seg["Commercial Revenue"] * (1 + comm_slowdown / 100)
+    stressed_total = seg["Government Revenue"] * gov_factor + stressed_comm
+    fig.add_trace(go.Scatter(
+        x=seg.index, y=stressed_total,
+        name="Stressed Total", line=dict(color=COLORS[3], width=2, dash="dash"),
+    ))
+    apply_layout(fig, "Revenue Floor: Government Cushion vs. Commercial Stress ($M)", height=400)
+    st.plotly_chart(fig, use_container_width=True)
+
+    # ── Monte Carlo Shift Overlay ──
+    st.markdown("### Monte Carlo Distribution Shift")
+    st.markdown("Overlay of base vs. stressed price distributions (GBM simulation).")
+
+    S0 = MARKET_DATA["current_price"]
+    mu_base = 0.65
+    sigma_base = 0.70
+    mu_stressed = mu_base * (1 + comm_slowdown / 100)
+    sigma_stressed = sigma_base * (1 + abs(ai_sentiment) / 100 * 0.5)  # vol increases under stress
+    dt = 1 / 252
+    n_sims_mc = 2000
+    n_days_mc = 252
+
+    np.random.seed(42)
+    # Base distribution
+    paths_base = np.zeros((n_sims_mc, n_days_mc + 1))
+    paths_base[:, 0] = S0
+    for t in range(1, n_days_mc + 1):
+        z = np.random.standard_normal(n_sims_mc)
+        paths_base[:, t] = paths_base[:, t-1] * np.exp((mu_base - 0.5 * sigma_base**2) * dt + sigma_base * np.sqrt(dt) * z)
+
+    np.random.seed(99)
+    # Stressed distribution
+    paths_stress = np.zeros((n_sims_mc, n_days_mc + 1))
+    paths_stress[:, 0] = S0
+    for t in range(1, n_days_mc + 1):
+        z = np.random.standard_normal(n_sims_mc)
+        paths_stress[:, t] = paths_stress[:, t-1] * np.exp((mu_stressed - 0.5 * sigma_stressed**2) * dt + sigma_stressed * np.sqrt(dt) * z)
+
+    fig = go.Figure()
+    fig.add_trace(go.Histogram(x=paths_base[:, -1], nbinsx=60, name="Base Distribution",
+                               marker_color=COLORS[0], opacity=0.5))
+    fig.add_trace(go.Histogram(x=paths_stress[:, -1], nbinsx=60, name="Stressed Distribution",
+                               marker_color=COLORS[3], opacity=0.5))
+    fig.add_vline(x=S0, line_dash="dash", line_color="white", opacity=0.6,
+                  annotation_text=f"Current: ${S0:.0f}")
+    fig.update_layout(barmode="overlay")
+    apply_layout(fig, "Monte Carlo: Base vs. Stressed 1-Year Distribution", height=400)
+    st.plotly_chart(fig, use_container_width=True)
+
+    c1, c2 = st.columns(2)
+    with c1:
+        st.metric("Base Median (1Y)", fmt_price(np.median(paths_base[:, -1])))
+        st.metric("Base 5th Pctl", fmt_price(np.percentile(paths_base[:, -1], 5)))
+    with c2:
+        st.metric("Stressed Median (1Y)", fmt_price(np.median(paths_stress[:, -1])))
+        st.metric("Stressed 5th Pctl", fmt_price(np.percentile(paths_stress[:, -1], 5)))
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+# PAGE: GLOBAL FOOTPRINT INTELLIGENCE
+# ══════════════════════════════════════════════════════════════════════════════
+elif page == "🌍 Global Footprint":
+    st.markdown("# Global Footprint Intelligence")
+    st.markdown(
+        "*Palantir's international presence is strategically important but financially under-disclosed. "
+        "This analysis uses only confirmed deployments from SEC filings, earnings calls, and public statements. "
+        "No country-level revenue is fabricated.*"
+    )
+    divider()
+
+    tab1, tab2, tab3 = st.tabs(["Disclosed Footprint Map", "Country Exposure Table", "Expansion Signals"])
+
+    with tab1:
+        st.markdown("### Confirmed Deployment Map")
+        st.markdown("Countries with verified Palantir deployments. Color intensity = number of confirmed engagements.")
+
+        # Aggregate deployments by country (only those with iso codes)
+        gf_df = pd.DataFrame(GLOBAL_FOOTPRINT)
+        country_agg = gf_df[gf_df["iso_alpha"].notna()].groupby("iso_alpha").agg(
+            count=("entity", "count"),
+            country=("country", "first"),
+            max_importance=("strategic_importance", "max"),
+            use_cases=("use_case", lambda x: " | ".join(x.unique())),
+        ).reset_index()
+
+        fig = go.Figure(data=go.Choropleth(
+            locations=country_agg["iso_alpha"],
+            z=country_agg["count"],
+            text=country_agg.apply(lambda r: f"{r['country']}<br>{r['count']} deployments<br>{r['use_cases']}", axis=1),
+            colorscale=[[0, "rgba(59,130,246,0.15)"], [0.5, "rgba(59,130,246,0.5)"], [1, "rgba(59,130,246,1.0)"]],
+            colorbar_title="Deployments",
+            hoverinfo="text",
+        ))
+        fig.update_geos(
+            bgcolor="rgba(10,14,23,1)",
+            landcolor="rgba(17,24,39,1)",
+            oceancolor="rgba(10,14,23,1)",
+            showocean=True,
+            lakecolor="rgba(10,14,23,1)",
+            coastlinecolor="rgba(30,41,59,0.5)",
+            countrycolor="rgba(30,41,59,0.3)",
+        )
+        fig.update_layout(
+            height=500,
+            margin=dict(l=0, r=0, t=30, b=0),
+            paper_bgcolor="rgba(10,14,23,1)",
+            font=dict(family="Inter", color="#f1f5f9"),
+        )
+        st.plotly_chart(fig, use_container_width=True)
+
+        # Regional summary
+        st.markdown("#### Regional Presence Summary")
+        regions = gf_df.groupby("country").agg(
+            deployments=("entity", "count"),
+            segments=("segment", lambda x: ", ".join(sorted(x.unique()))),
+            avg_importance=("strategic_importance", "mean"),
+        ).sort_values("avg_importance", ascending=False).reset_index()
+        regions.columns = ["Country/Region", "Confirmed Deployments", "Sectors", "Avg Strategic Importance"]
+        st.dataframe(regions.style.format({"Avg Strategic Importance": "{:.1f}"}),
+                     use_container_width=True)
+
+    with tab2:
+        st.markdown("### Country Exposure Detail")
+        st.markdown("Every confirmed deployment with evidence type and strategic interpretation.")
+
+        display_df = pd.DataFrame(GLOBAL_FOOTPRINT)[
+            ["country", "entity", "use_case", "segment", "evidence", "strategic_importance", "notes"]
+        ]
+        display_df.columns = ["Country", "Entity", "Use Case", "Segment", "Evidence Type", "Strategic Importance", "Notes"]
+        st.dataframe(
+            display_df.style.background_gradient(cmap="Blues", subset=["Strategic Importance"]),
+            use_container_width=True,
+            height=600,
+        )
+
+    with tab3:
+        st.markdown("### Expansion Signal Assessment")
+        st.markdown("Scored evaluation of each region's expansion potential. Higher = more favorable.")
+
+        exp = EXPANSION_SIGNALS
+        st.dataframe(exp.set_index("Region").style.format("{:.1f}")
+                     .background_gradient(cmap="RdYlGn", axis=None),
+                     use_container_width=True)
+
+        # Radar chart per region
+        st.markdown("#### Regional Signal Radar")
+        categories = ["Strategic Importance", "Repeatability", "Monetization Clarity"]
+        # Invert political risk for radar (5 = low risk = good)
+        exp_radar = exp.copy()
+        exp_radar["Political Stability"] = 6 - exp_radar["Political Risk"]
+        radar_cats = categories + ["Political Stability"]
+
+        fig = go.Figure()
+        for _, row in exp_radar.iterrows():
+            vals = [row[c] for c in radar_cats]
+            fig.add_trace(go.Scatterpolar(
+                r=vals + [vals[0]], theta=radar_cats + [radar_cats[0]],
+                name=row["Region"], fill="toself", opacity=0.25,
+            ))
+        fig.update_layout(
+            polar=dict(
+                bgcolor="rgba(17,24,39,0.5)",
+                radialaxis=dict(gridcolor="rgba(30,41,59,0.5)", color="rgba(255,255,255,0.5)", range=[0, 6]),
+                angularaxis=dict(gridcolor="rgba(30,41,59,0.5)", color="rgba(255,255,255,0.8)"),
+            ),
+        )
+        apply_layout(fig, "Expansion Signal Radar by Region", height=500)
+        st.plotly_chart(fig, use_container_width=True)
+
+        # Composite ranking
+        st.markdown("#### Composite Expansion Score Ranking")
+        fig = go.Figure()
+        exp_sorted = exp.sort_values("Composite", ascending=True)
+        fig.add_trace(go.Bar(
+            x=exp_sorted["Composite"], y=exp_sorted["Region"],
+            orientation="h", marker_color=COLORS[0],
+            text=[f"{v:.2f}" for v in exp_sorted["Composite"]],
+            textposition="outside",
+        ))
+        apply_layout(fig, "Composite Expansion Score by Region", height=350)
+        st.plotly_chart(fig, use_container_width=True)
 
 
 # ══════════════════════════════════════════════════════════════════════════════

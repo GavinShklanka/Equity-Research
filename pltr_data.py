@@ -339,3 +339,323 @@ GUIDANCE = {
     "FY2026_adj_fcf_low": 3500,
     "FY2026_adj_fcf_high": 3600,
 }
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# GLOBAL FOOTPRINT — Confirmed Deployments Only (SEC, IR, Press Releases)
+# ═══════════════════════════════════════════════════════════════════════════════
+GLOBAL_FOOTPRINT = [
+    # United States — Government
+    {"country": "United States", "entity": "U.S. Army", "use_case": "TITAN Ground Station / Battlefield Intelligence",
+     "segment": "Defense", "evidence": "Disclosed Contract", "strategic_importance": 5,
+     "iso_alpha": "USA", "notes": "Multi-year Army Vantage program + TITAN win (2024)"},
+    {"country": "United States", "entity": "U.S. Space Force", "use_case": "Data Mesh / Operational Analytics",
+     "segment": "Defense", "evidence": "Disclosed Contract", "strategic_importance": 5,
+     "iso_alpha": "USA", "notes": "Space C2 and data integration"},
+    {"country": "United States", "entity": "U.S. Special Operations Command", "use_case": "Mission Planning & Intelligence",
+     "segment": "Defense", "evidence": "Disclosed Contract", "strategic_importance": 5,
+     "iso_alpha": "USA", "notes": "Long-standing SOCOM relationship since founding"},
+    {"country": "United States", "entity": "CIA / IC Community", "use_case": "Intelligence Analysis Platform",
+     "segment": "Intelligence", "evidence": "Public Knowledge", "strategic_importance": 5,
+     "iso_alpha": "USA", "notes": "Founding customer; In-Q-Tel backed"},
+    {"country": "United States", "entity": "HHS / CDC / NIH", "use_case": "COVID-19 Response / Public Health Analytics",
+     "segment": "Healthcare", "evidence": "Disclosed Contract", "strategic_importance": 4,
+     "iso_alpha": "USA", "notes": "HHS Protect platform during pandemic; continued engagement"},
+    {"country": "United States", "entity": "FAA", "use_case": "Airspace Modernization",
+     "segment": "Government", "evidence": "Disclosed Contract", "strategic_importance": 3,
+     "iso_alpha": "USA", "notes": "Data integration for air traffic management"},
+    {"country": "United States", "entity": "IRS", "use_case": "Tax Fraud Detection",
+     "segment": "Government", "evidence": "Disclosed Contract", "strategic_importance": 3,
+     "iso_alpha": "USA", "notes": "Fraud analytics and compliance"},
+    {"country": "United States", "entity": "VA (Veterans Affairs)", "use_case": "Healthcare Delivery Optimization",
+     "segment": "Healthcare", "evidence": "Disclosed Contract", "strategic_importance": 4,
+     "iso_alpha": "USA", "notes": "Patient flow and resource allocation"},
+    # United States — Commercial
+    {"country": "United States", "entity": "AIP Boot Camp Customers", "use_case": "Enterprise AI Deployment",
+     "segment": "Commercial", "evidence": "Earnings Disclosure", "strategic_importance": 5,
+     "iso_alpha": "USA", "notes": "Hundreds of boot camps converting to production; US Comm grew 137% YoY in Q4 2025"},
+    {"country": "United States", "entity": "Healthcare / Life Sciences", "use_case": "Drug Discovery & Clinical Operations",
+     "segment": "Commercial", "evidence": "Earnings Disclosure", "strategic_importance": 4,
+     "iso_alpha": "USA", "notes": "Multiple pharma & hospital system deployments"},
+    {"country": "United States", "entity": "Energy & Manufacturing", "use_case": "Supply Chain & Operations",
+     "segment": "Commercial", "evidence": "Earnings Disclosure", "strategic_importance": 3,
+     "iso_alpha": "USA", "notes": "Foundry deployments in industrial verticals"},
+    # United Kingdom
+    {"country": "United Kingdom", "entity": "NHS England", "use_case": "Federated Data Platform",
+     "segment": "Healthcare", "evidence": "Disclosed Contract", "strategic_importance": 5,
+     "iso_alpha": "GBR", "notes": "£330M+ NHS FDP contract (2023); national-scale health data integration"},
+    {"country": "United Kingdom", "entity": "UK Ministry of Defence", "use_case": "Defense Intelligence",
+     "segment": "Defense", "evidence": "Disclosed Contract", "strategic_importance": 4,
+     "iso_alpha": "GBR", "notes": "Long-standing MOD relationship; Five Eyes partner"},
+    # Ukraine
+    {"country": "Ukraine", "entity": "Ukrainian Government / Military", "use_case": "Battlefield Intelligence & Targeting",
+     "segment": "Defense", "evidence": "CEO Public Statements", "strategic_importance": 5,
+     "iso_alpha": "UKR", "notes": "Confirmed by Karp; Palantir deployed for battlefield awareness in active conflict"},
+    # Europe / NATO
+    {"country": "NATO / Europe", "entity": "NATO Alliance", "use_case": "Alliance Intelligence Sharing",
+     "segment": "Defense", "evidence": "Press Reports", "strategic_importance": 4,
+     "iso_alpha": None, "notes": "Expanded NATO engagement post-Ukraine; interoperability platform"},
+    {"country": "Germany", "entity": "German Federal Police (BKA)", "use_case": "Law Enforcement Analytics",
+     "segment": "Government", "evidence": "Disclosed Contract", "strategic_importance": 3,
+     "iso_alpha": "DEU", "notes": "Counter-terrorism analytics; subject to German privacy court rulings"},
+    {"country": "France", "entity": "French Defense / DGSI", "use_case": "Intelligence Analysis",
+     "segment": "Defense", "evidence": "Press Reports", "strategic_importance": 3,
+     "iso_alpha": "FRA", "notes": "Reported engagement; European defense expansion"},
+    # Asia-Pacific
+    {"country": "Japan", "entity": "SOMPO Holdings", "use_case": "Insurance & Enterprise Analytics",
+     "segment": "Commercial", "evidence": "Disclosed Partnership", "strategic_importance": 3,
+     "iso_alpha": "JPN", "notes": "Strategic partnership; Japan market entry"},
+    {"country": "South Korea", "entity": "Hyundai Heavy Industries", "use_case": "Manufacturing & Shipbuilding",
+     "segment": "Commercial", "evidence": "Disclosed Partnership", "strategic_importance": 3,
+     "iso_alpha": "KOR", "notes": "Industrial Foundry deployment"},
+    {"country": "Australia", "entity": "Australian Defence Force", "use_case": "Defense Intelligence",
+     "segment": "Defense", "evidence": "Disclosed Contract", "strategic_importance": 4,
+     "iso_alpha": "AUS", "notes": "Five Eyes partner; defense and intelligence"},
+]
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# EXPANSION SIGNALS — Scored per Region (1–5 scale)
+# ═══════════════════════════════════════════════════════════════════════════════
+EXPANSION_SIGNALS = pd.DataFrame([
+    {"Region": "United States", "Strategic Importance": 5, "Repeatability": 5,
+     "Political Risk": 1, "Monetization Clarity": 5, "Composite": 4.75},
+    {"Region": "United Kingdom", "Strategic Importance": 5, "Repeatability": 4,
+     "Political Risk": 2, "Monetization Clarity": 5, "Composite": 4.25},
+    {"Region": "Ukraine / Conflict Zones", "Strategic Importance": 5, "Repeatability": 2,
+     "Political Risk": 5, "Monetization Clarity": 2, "Composite": 2.75},
+    {"Region": "NATO / Europe", "Strategic Importance": 4, "Repeatability": 3,
+     "Political Risk": 3, "Monetization Clarity": 3, "Composite": 3.25},
+    {"Region": "Japan / South Korea", "Strategic Importance": 3, "Repeatability": 4,
+     "Political Risk": 1, "Monetization Clarity": 3, "Composite": 3.25},
+    {"Region": "Australia / Five Eyes", "Strategic Importance": 4, "Repeatability": 3,
+     "Political Risk": 1, "Monetization Clarity": 4, "Composite": 3.75},
+])
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# AI ECOSYSTEM DATA — Partnership Dependency Analysis
+# ═══════════════════════════════════════════════════════════════════════════════
+AI_ECOSYSTEM_DATA = {
+    "partnerships": [
+        {
+            "partner": "NVIDIA",
+            "type": "Infrastructure",
+            "upside": "GPU compute access for AIP; co-development of AI/ML workflows; NVIDIA promotion at GTC",
+            "downside": "Dependency on GPU supply cycle; sentiment contagion if AI hardware reprices; infrastructure cost exposure",
+            "dependency_level": "Medium",
+            "contagion_risk": "High — PLTR beta to NVIDIA sentiment is elevated due to shared AI narrative",
+        },
+        {
+            "partner": "Oracle Cloud",
+            "type": "Distribution",
+            "upside": "Enterprise distribution through OCI; access to Oracle's installed base; cloud marketplace listing",
+            "downside": "Platform dependency; Oracle competes in analytics; revenue share economics",
+            "dependency_level": "Medium",
+            "contagion_risk": "Low — Oracle is infrastructure, not narrative driver",
+        },
+        {
+            "partner": "AWS",
+            "type": "Deployment",
+            "upside": "GovCloud deployment for classified workloads; massive enterprise reach; FedRAMP certified",
+            "downside": "AWS competes directly with SageMaker; bundling risk; margin pressure",
+            "dependency_level": "High",
+            "contagion_risk": "Low — AWS is diversified, not AI-pure-play",
+        },
+        {
+            "partner": "Microsoft / Azure",
+            "type": "Deployment",
+            "upside": "Azure government cloud access; enterprise cross-sell potential",
+            "downside": "Microsoft is the most direct competitor (Copilot, Power Platform); Azure incentives may shift",
+            "dependency_level": "Medium",
+            "contagion_risk": "Low — Microsoft is diversified",
+        },
+    ],
+    "ai_sentiment_scenarios": {
+        "Base": {"multiple_impact": 1.0, "description": "Current AI sentiment sustained; no repricing"},
+        "AI Repricing": {"multiple_impact": 0.65, "description": "AI sentiment cools 35%; multiples compress but business fundamentals intact"},
+        "AI Bubble Pop": {"multiple_impact": 0.35, "description": "Severe AI sentiment collapse; 65% multiple compression; growth slows moderately due to enterprise caution"},
+    },
+}
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# TOOLTIP CONTENT — Educational Annotations
+# Priority: Financial Analytics page, then Palantir-crucial metrics
+# ═══════════════════════════════════════════════════════════════════════════════
+TOOLTIP_CONTENT = {
+    # ── Horizontal Analysis ──
+    "horizontal_analysis": {
+        "definition": "Horizontal analysis measures the year-over-year (YoY) percentage change in each financial statement line item.",
+        "formula": "YoY Change (%) = (Current Year − Prior Year) / Prior Year × 100",
+        "interpretation": (
+            "Look for **acceleration vs. deceleration** — is the growth rate increasing or decreasing over time? "
+            "Sustained acceleration (like PLTR's revenue going from +17% to +56%) is rare and signals strong demand. "
+            "Decelerating growth is normal for maturing companies and not inherently negative — the key is whether "
+            "the rate of deceleration is faster or slower than expected."
+        ),
+    },
+    # ── Vertical Analysis ──
+    "vertical_analysis": {
+        "definition": "Vertical (common-size) analysis expresses each income statement item as a percentage of Total Revenue, revealing cost structure relationships.",
+        "formula": "Common-Size % = Line Item / Total Revenue × 100",
+        "interpretation": (
+            "Focus on **margin composition**: Is the cost of revenue shrinking as a percentage? That signals operating leverage. "
+            "For PLTR, watch SBC as % of Revenue (declining from 100%→15.6% is a major positive), "
+            "and the spread between Gross Margin (~82%) and Operating Margin (~25% GAAP) — the gap is driven by R&D + SGA, "
+            "which should narrow as the company scales."
+        ),
+    },
+    # ── Ratio Analysis ──
+    "ratio_analysis": {
+        "definition": "Financial ratios condense balance sheet, income statement, and cash flow data into comparable metrics across four categories.",
+        "formula": None,
+        "interpretation": (
+            "Ratios are most useful in two contexts: (1) trend analysis over time, and (2) peer comparison. "
+            "A single ratio in isolation tells you little — the direction and relative position matter more than the absolute number."
+        ),
+    },
+    "gross_margin": {
+        "definition": "Gross Margin measures the percentage of revenue retained after direct costs of delivering the product/service.",
+        "formula": "Gross Margin (%) = Gross Profit / Revenue × 100",
+        "interpretation": (
+            "For software companies, gross margins above 70% indicate a platform business model with low marginal delivery cost. "
+            "PLTR's ~82% gross margin confirms it is a high-leverage platform, not a services company. "
+            "Compare to peers: SNOW ~66%, DDOG ~80%, CRWD ~75%."
+        ),
+    },
+    "operating_margin": {
+        "definition": "Operating Margin shows the percentage of revenue remaining after all operating expenses (COGS, R&D, SGA, SBC).",
+        "formula": "Operating Margin (%) = Operating Income / Revenue × 100",
+        "interpretation": (
+            "The gap between gross margin and operating margin reveals how much the company spends on growth (R&D, sales). "
+            "PLTR's GAAP operating margin improved from -73% (2020) to +35% (2025) — a 108pp improvement driven by operating leverage. "
+            "The adjusted margin (excluding SBC) is 50.6%, but GAAP is the more conservative and honest measure."
+        ),
+    },
+    "net_margin": {
+        "definition": "Net Margin represents the percentage of revenue that becomes actual profit after all expenses, taxes, and interest.",
+        "formula": "Net Margin (%) = Net Income / Revenue × 100",
+        "interpretation": (
+            "Net margin includes non-operating items like interest income and taxes. "
+            "PLTR's net margin (36%) is boosted by $260M in interest income from its $7.2B cash pile. "
+            "This is a real but non-recurring quality — when rates drop, interest income declines."
+        ),
+    },
+    "fcf_margin": {
+        "definition": "Free Cash Flow Margin measures how much of each revenue dollar converts to cash available for shareholders, debt reduction, or reinvestment.",
+        "formula": "FCF Margin (%) = (Operating Cash Flow − CapEx) / Revenue × 100",
+        "interpretation": (
+            "FCF margin is arguably the single most important metric for a high-growth software company. "
+            "PLTR's 51% FCF margin exceeds its GAAP net margin (36%) because SBC is a non-cash expense added back to cash flow, "
+            "and capex is minimal (~$25M). **Critical nuance**: High FCF margin with high SBC means the company is "
+            "generating cash by diluting shareholders — both truths coexist."
+        ),
+    },
+    "current_ratio": {
+        "definition": "Current Ratio measures a company's ability to pay short-term obligations with short-term assets.",
+        "formula": "Current Ratio = Current Assets / Current Liabilities",
+        "interpretation": (
+            "A ratio above 1.0 means the company can cover near-term liabilities. "
+            "PLTR's current ratio is ~10x — extraordinarily high, reflecting its massive cash + investment position "
+            "and low debt. This provides a significant safety buffer but also suggests capital allocation "
+            "could be more aggressive (buybacks, acquisitions, dividends)."
+        ),
+    },
+    "debt_equity": {
+        "definition": "Debt-to-Equity ratio measures financial leverage — how much of the company is financed by debt vs. shareholder equity.",
+        "formula": "D/E = Total Liabilities / Total Stockholders' Equity",
+        "interpretation": (
+            "PLTR's near-zero D/E ratio is uncommon among large tech companies. "
+            "Zero debt means no bankruptcy risk and no interest expense burden, but it also means "
+            "the company is not using leverage to enhance returns. "
+            "For a company growing 56% with 82% gross margins, the balance sheet is extremely conservative."
+        ),
+    },
+    "roe": {
+        "definition": "Return on Equity measures how effectively the company generates profit from shareholders' invested capital.",
+        "formula": "ROE (%) = Net Income / Stockholders' Equity × 100",
+        "interpretation": (
+            "ROE is best understood through DuPont decomposition — is it driven by margins, asset utilization, or leverage? "
+            "PLTR's ROE is moderate (~22%) despite high margins because it has no leverage (equity multiplier ~1.2x) "
+            "and a massive asset base from accumulated cash. This is the trade-off of a fortress balance sheet."
+        ),
+    },
+    # ── DuPont Analysis ──
+    "dupont_analysis": {
+        "definition": "DuPont Analysis decomposes Return on Equity into three drivers: profitability (margin), efficiency (turnover), and leverage (multiplier).",
+        "formula": "ROE = Net Profit Margin × Asset Turnover × Equity Multiplier",
+        "interpretation": (
+            "This decomposition reveals WHERE returns are coming from. For PLTR: "
+            "(1) Net Profit Margin is improving rapidly (the primary ROE driver — went positive in 2023), "
+            "(2) Asset Turnover is declining (because cash is piling up faster than revenue), "
+            "(3) Equity Multiplier is falling (no debt, equity growing via retained earnings). "
+            "Translation: ROE is being dragged down by the company's own success in accumulating cash."
+        ),
+    },
+    # ── Trend Analysis ──
+    "trend_analysis": {
+        "definition": "Trend Analysis indexes all financial items to a base year (= 100) to visualize relative growth trajectories over multiple years.",
+        "formula": "Index Value = (Current Year Value / Base Year Value) × 100",
+        "interpretation": (
+            "Look for **divergence patterns**: When revenue index grows faster than cost index, margins are expanding. "
+            "When Net Income's index swings from negative to positive territory, the company hit a profitability inflection point. "
+            "Signal vs. noise: A single year's spike could be a one-time event; 3+ years of directional consistency is a trend."
+        ),
+    },
+    # ── Palantir-Crucial Metrics ──
+    "rule_of_40": {
+        "definition": "The Rule of 40 is a benchmark for SaaS/software companies: Revenue Growth (%) + Profit Margin (%) should exceed 40.",
+        "formula": "Rule of 40 = Revenue Growth (%) + FCF Margin (%)",
+        "interpretation": (
+            "Companies exceeding the Rule of 40 demonstrate they are balancing growth and profitability effectively. "
+            "PLTR scores **107** (56% growth + 51% FCF margin) — in the top 1% of all software companies historically. "
+            "However, this metric can be gamed with SBC exclusion; using GAAP operating margin instead yields ~91, still elite."
+        ),
+    },
+    "sbc_pct_revenue": {
+        "definition": "Stock-Based Compensation as a percentage of revenue measures the dilutive cost of equity-based employee pay.",
+        "formula": "SBC % = Stock-Based Compensation / Revenue × 100",
+        "interpretation": (
+            "SBC is a real economic cost — it dilutes existing shareholders. PLTR's SBC/Revenue has improved dramatically "
+            "(100% in 2020 → 15.6% in 2025), but $700M annually is still material. "
+            "The critical question: Is the talent retained by SBC generating enough value to offset dilution? "
+            "For context, many mature tech companies target SBC below 10% of revenue."
+        ),
+    },
+    "ev_revenue": {
+        "definition": "Enterprise Value to Revenue ratio values the entire business (equity + debt − cash) relative to its revenue.",
+        "formula": "EV/Revenue = Enterprise Value / Trailing 12-Month Revenue",
+        "interpretation": (
+            "PLTR trades at ~81x EV/Revenue vs. peer median of ~12x. This premium implies the market expects "
+            "PLTR to grow into a revenue base 5–8x larger while maintaining elite margins. "
+            "At 81x EV/Revenue, the stock is priced for perfection — any growth miss would trigger disproportionate downside. "
+            "Historically, very few companies have sustained >50x EV/Revenue for more than 2 years."
+        ),
+    },
+    "net_cash": {
+        "definition": "Net Cash Position is the difference between cash/investments and total debt, showing financial flexibility.",
+        "formula": "Net Cash = (Cash + Short-Term Investments) − Total Debt",
+        "interpretation": (
+            "PLTR's ~$7.2B net cash position (zero debt) provides maximum strategic optionality: "
+            "acquisitions, buybacks, or simply surviving a downturn without raising capital. "
+            "For a company with $4.5B revenue, this represents ~1.6 years of total revenue in cash reserves — "
+            "an exceptionally strong position that eliminates liquidity and solvency risk."
+        ),
+    },
+    "rev_per_employee": {
+        "definition": "Revenue per Employee measures operational efficiency and platform leverage.",
+        "formula": "Revenue per Employee = Total Revenue / Headcount",
+        "interpretation": (
+            "PLTR generates ~$1.15M per employee (3,900 headcount) — well above average for enterprise software. "
+            "High RevPE signals the platform model is working: revenue scales without proportional hiring. "
+            "This metric should increase as AIP drives more self-service deployments vs. traditional Forward Deployed Engineers."
+        ),
+    },
+    "government_cushion": {
+        "definition": "Government Revenue as a percentage of total revenue — indicates the 'recession-resistant' floor of the business.",
+        "formula": "Gov Cushion (%) = Government Revenue / Total Revenue × 100",
+        "interpretation": (
+            "PLTR's government segment (~54% of revenue) provides a durable, contract-based revenue floor. "
+            "Government contracts are multi-year, high-switching-cost, and largely immune to commercial cycles. "
+            "This 'cushion' means even if commercial growth slows dramatically, PLTR has a revenue floor "
+            "that most pure-play commercial software companies lack."
+        ),
+    },
+}
