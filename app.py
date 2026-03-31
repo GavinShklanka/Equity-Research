@@ -29,39 +29,101 @@ h1 {{ color: {B['maroon']} !important; font-family: 'Source Serif 4', Georgia, s
 h2 {{ color: {B['navy']} !important; font-family: 'Source Serif 4', Georgia, serif !important; font-weight: 600 !important; border-bottom: 2px solid {B['gold']}; padding-bottom: 6px; font-size: 1.25rem !important; }}
 h3 {{ color: {B['text']} !important; font-family: 'Inter', sans-serif !important; font-weight: 500 !important; font-size: 1.0rem !important; }}
 p, li, span {{ font-family: 'Inter', sans-serif; color: {B['text']}; line-height: 1.6; }}
+
+/* ── Sidebar ─────────────────────────────────────────────── */
 section[data-testid="stSidebar"] {{ background: linear-gradient(180deg, {B['maroon']} 0%, #4A1522 100%); }}
-section[data-testid="stSidebar"] .stMarkdown p, section[data-testid="stSidebar"] .stMarkdown li, section[data-testid="stSidebar"] label {{ color: #E8D8DC !important; }}
-section[data-testid="stSidebar"] .stMarkdown h2 {{ color: #FFF !important; border-bottom-color: {B['gold']} !important; }}
+section[data-testid="stSidebar"] * {{ color: #F5ECF0 !important; }}
+section[data-testid="stSidebar"] h2 {{ color: #FFFFFF !important; border-bottom-color: {B['gold']} !important; }}
+section[data-testid="stSidebar"] .stRadio label,
+section[data-testid="stSidebar"] .stRadio > div > label,
+section[data-testid="stSidebar"] [data-testid="stWidgetLabel"] > p,
+section[data-testid="stSidebar"] div[role="radiogroup"] label p {{ color: #F5ECF0 !important; font-size: 0.9rem !important; }}
+section[data-testid="stSidebar"] .stCaption, section[data-testid="stSidebar"] small {{ color: #C8A8B4 !important; font-size: 0.8rem !important; }}
+section[data-testid="stSidebar"] .stToggle label {{ color: #F5ECF0 !important; }}
+section[data-testid="stSidebar"] hr {{ border-color: rgba(255,255,255,0.15) !important; }}
+
+/* ── Metric cards ────────────────────────────────────────── */
 div[data-testid="stMetric"] {{ background: {B['surface']}; border: 1px solid {B['border']}; border-radius: 8px; padding: 14px 18px; }}
 div[data-testid="stMetric"] label {{ color: {B['muted']} !important; font-size: 0.78rem !important; text-transform: uppercase; letter-spacing: 0.04em; }}
 div[data-testid="stMetric"] [data-testid="stMetricValue"] {{ color: {B['text']} !important; font-weight: 600 !important; }}
+
+/* ── Tabs ────────────────────────────────────────────────── */
 .stTabs [data-baseweb="tab-list"] {{ gap: 2px; background: {B['sfa']}; border-radius: 8px; padding: 3px; }}
-.stTabs [data-baseweb="tab"] {{ border-radius: 6px; padding: 8px 16px; color: {B['muted']}; font-weight: 500; font-size: 0.85rem; }}
-.stTabs [aria-selected="true"] {{ background: {B['maroon']} !important; color: white !important; }}
+.stTabs [data-baseweb="tab"] {{ border-radius: 6px; padding: 8px 16px; color: {B['text']}; font-weight: 500; font-size: 0.85rem; }}
+.stTabs [aria-selected="true"] {{ background: {B['maroon']} !important; color: #FFFFFF !important; }}
+.stTabs [aria-selected="true"] p, .stTabs [aria-selected="true"] span {{ color: #FFFFFF !important; }}
+
+/* ── Data frames & expanders ─────────────────────────────── */
 .stDataFrame {{ border-radius: 8px; overflow: hidden; border: 1px solid {B['border']}; }}
-.streamlit-expanderHeader {{ background: {B['sfa']} !important; border-radius: 6px; color: {B['text']} !important; }}
+.streamlit-expanderHeader {{ background: {B['sfa']} !important; border-radius: 6px; color: {B['text']} !important; font-weight: 500; }}
+.streamlit-expanderHeader p, .streamlit-expanderHeader span {{ color: {B['text']} !important; }}
+
+/* ── Page header components ──────────────────────────────── */
 .pq {{ font-family: 'Source Serif 4', serif; font-size: 1.4rem; font-weight: 600; color: {B['maroon']}; line-height: 1.3; margin-bottom: 4px; }}
 .pa {{ font-size: 0.95rem; color: {B['text']}; font-weight: 500; padding: 10px 16px; background: {B['surface']}; border-left: 3px solid {B['gold']}; border-radius: 0 6px 6px 0; margin-bottom: 4px; }}
 .pi {{ font-size: 0.85rem; color: {B['muted']}; font-style: italic; margin-bottom: 18px; }}
-.cbox {{ background: {B['surface']}; border: 1px solid {B['border']}; border-radius: 8px; padding: 12px 16px; margin: 8px 0; font-size: 0.88rem; line-height: 1.5; }}
-.cbox .cl {{ font-weight: 600; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 3px; }}
-.cbox.cs .cl {{ color: {B['pos']}; }} .cbox.cc .cl {{ color: {B['neg']}; }}
-.cbox.cn .cl {{ color: {B['navy']}; }} .cbox.cv .cl {{ color: {B['maroon']}; }}
+
+/* ── Callout boxes ───────────────────────────────────────── */
+.cbox {{ background: {B['surface']}; border: 1px solid {B['border']}; border-radius: 8px; padding: 12px 16px; margin: 8px 0; font-size: 0.88rem; line-height: 1.5; color: {B['text']}; }}
+.cbox .cl {{ font-weight: 700; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 5px; display: block; }}
+.cbox.cs {{ border-left: 3px solid {B['pos']}; }}
+.cbox.cs .cl {{ color: {B['pos']}; }}
+.cbox.cc {{ border-left: 3px solid {B['neg']}; }}
+.cbox.cc .cl {{ color: {B['neg']}; }}
+.cbox.cn {{ border-left: 3px solid {B['navy']}; }}
+.cbox.cn .cl {{ color: {B['navy']}; }}
+.cbox.cv {{ border-left: 3px solid {B['maroon']}; }}
+.cbox.cv .cl {{ color: {B['maroon']}; }}
+
+/* ── Chart captions ──────────────────────────────────────── */
 .cap {{ font-size: 0.82rem; color: {B['muted']}; margin-top: -8px; margin-bottom: 14px; line-height: 1.5; }}
 .cap strong {{ color: {B['text']}; }}
+
+/* ── Section rule ────────────────────────────────────────── */
 .sr {{ height: 1px; background: linear-gradient(90deg, transparent, {B['border']}, transparent); margin: 1.5rem 0; }}
+
+/* ── Educational tooltips ────────────────────────────────── */
 .tt {{ background: rgba(110,34,51,0.04); border: 1px solid rgba(110,34,51,0.12); border-radius: 8px; padding: 10px 14px; margin: 6px 0 12px; font-size: 0.82rem; }}
 .tt .tl {{ color: {B['maroon']}; font-weight: 600; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.05em; }}
 .tt .tf {{ font-family: monospace; color: {B['navy']}; background: rgba(50,75,107,0.06); padding: 2px 6px; border-radius: 3px; display: inline-block; }}
 </style>""", unsafe_allow_html=True)
 
-PL = dict(template="plotly_white", paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(247,244,241,0.3)",
-    font=dict(family="Inter", color=B["text"], size=12), margin=dict(l=40, r=20, t=50, b=40),
-    legend=dict(bgcolor="rgba(0,0,0,0)", font=dict(size=11)),
-    xaxis=dict(gridcolor="rgba(216,205,210,0.4)"), yaxis=dict(gridcolor="rgba(216,205,210,0.4)"))
+_AX = dict(
+    gridcolor="rgba(216,205,210,0.5)",
+    linecolor=B["border"],
+    tickfont=dict(family="Inter", color=B["text"], size=11),
+    title_font=dict(family="Inter", color=B["text"], size=12),
+    showgrid=True,
+)
+PL = dict(
+    template="plotly_white",
+    paper_bgcolor="rgba(0,0,0,0)",
+    plot_bgcolor="rgba(247,244,241,0.3)",
+    font=dict(family="Inter", color=B["text"], size=12),
+    margin=dict(l=50, r=30, t=55, b=50),
+    legend=dict(bgcolor="rgba(255,255,255,0.85)", font=dict(family="Inter", color=B["text"], size=11),
+                bordercolor=B["border"], borderwidth=1),
+    xaxis=_AX,
+    yaxis=_AX,
+)
 
 def al(fig, title="", h=450):
-    fig.update_layout(**PL, title=dict(text=title, font=dict(size=14)), height=h); return fig
+    fig.update_layout(
+        **PL,
+        title=dict(
+            text=title,
+            font=dict(family="Source Serif 4, Georgia, serif", size=15, color=B["navy"]),
+            x=0, xanchor="left", pad=dict(l=4),
+        ),
+        height=h,
+    )
+    # Make all bar/scatter text labels dark and readable
+    fig.update_traces(textfont=dict(color=B["text"], family="Inter", size=11))
+    # Make all hline/vline annotation text dark
+    for ann in fig.layout.annotations:
+        ann.update(font=dict(color=B["text"], family="Inter", size=11))
+    return fig
+
 def fmt_b(v):
     return "N/A" if v is None else (f"${v/1e3:.1f}B" if abs(v) >= 1000 else f"${v:.0f}M")
 def fmt_p(v): return "N/A" if v is None else f"${v:,.2f}"
@@ -86,16 +148,45 @@ SH = MARKET_DATA["shares_outstanding"]
 CR = INCOME_STATEMENT.loc[2025,"Total Revenue"]
 
 with st.sidebar:
-    st.markdown("## Palantir Technologies")
-    st.markdown(f"NASDAQ: PLTR | {fmt_p(MARKET_DATA['current_price'])}")
-    st.markdown("---")
-    page = st.radio("Investigation", ["The Market Puzzle","What Palantir Does","The Bull Case",
-        "The Bear Case","The Valuation Test","The Verdict"], label_visibility="collapsed")
-    st.markdown("---")
-    st.session_state["learn_mode"] = st.toggle("Show educational notes", value=False)
-    st.markdown("---")
-    st.markdown("**MBAN5570**"); st.caption("Accounting & Financial Analytics")
-    st.caption("Sobey School of Business"); st.caption("Dr. Mohammad M. Rahaman")
+    st.markdown(f"""
+<div style="padding: 4px 0 12px 0;">
+  <div style="font-family:'Source Serif 4',serif; font-size:1.1rem; font-weight:700; color:#FFFFFF; line-height:1.2;">
+    Palantir Technologies
+  </div>
+  <div style="font-family:'Inter',sans-serif; font-size:0.78rem; color:#C8A8B4; margin-top:3px; letter-spacing:0.04em;">
+    NASDAQ: PLTR
+  </div>
+  <div style="margin-top:8px;">
+    <span style="background:rgba(199,168,109,0.2); border:1px solid rgba(199,168,109,0.4);
+      border-radius:4px; padding:3px 10px; font-family:'Inter',sans-serif;
+      font-size:0.92rem; font-weight:600; color:#E8D0A0; letter-spacing:0.02em;">
+      {fmt_p(MARKET_DATA['current_price'])}
+    </span>
+  </div>
+</div>
+""", unsafe_allow_html=True)
+    st.markdown('<hr style="border-color:rgba(255,255,255,0.12); margin: 4px 0 10px 0;">', unsafe_allow_html=True)
+    st.markdown('<p style="font-family:Inter,sans-serif; font-size:0.7rem; text-transform:uppercase; letter-spacing:0.1em; color:#C8A8B4; margin-bottom:6px;">Investigation</p>', unsafe_allow_html=True)
+    page = st.radio("Investigation", [
+        "The Market Puzzle",
+        "What Palantir Does",
+        "The Bull Case",
+        "The Bear Case",
+        "The Valuation Test",
+        "The Verdict",
+    ], label_visibility="collapsed")
+    st.markdown('<hr style="border-color:rgba(255,255,255,0.12); margin: 10px 0;">', unsafe_allow_html=True)
+    st.session_state["learn_mode"] = st.toggle("Educational notes", value=False)
+    st.markdown('<hr style="border-color:rgba(255,255,255,0.12); margin: 10px 0;">', unsafe_allow_html=True)
+    st.markdown(f"""
+<div style="font-family:'Inter',sans-serif; font-size:0.75rem; color:#C8A8B4; line-height:1.7;">
+  <div style="color:#E8D0A0; font-weight:600; margin-bottom:2px;">MBAN5570</div>
+  Accounting &amp; Financial Analytics<br>
+  Sobey School of Business<br>
+  Dr. Mohammad M. Rahaman
+</div>
+""", unsafe_allow_html=True)
+
 
 # ═══════════════════════════════════════════════════════════════════════════
 # PAGE 1: THE MARKET PUZZLE
