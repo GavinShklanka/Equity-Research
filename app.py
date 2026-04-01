@@ -276,7 +276,7 @@ elif page == "What Palantir Does":
         st.plotly_chart(fig, use_container_width=True)
         dd = gf[["country","entity","use_case","segment","evidence","strategic_importance","notes"]]
         dd.columns = ["Country","Entity","Use Case","Segment","Evidence","Importance","Notes"]
-        st.dataframe(dd.style.background_gradient(cmap="Blues", subset=["Importance"]), use_container_width=True, height=350)
+        st.dataframe(dd, use_container_width=True, height=350)
 
 # ═══════════════════════════════════════════════════════════════════════════
 # PAGE 3: THE BULL CASE
@@ -303,7 +303,7 @@ elif page == "The Bull Case":
     with t1:
         st.markdown("### Income Statement ($M)")
         dc = ["Total Revenue","Cost of Revenue","Gross Profit","R&D Expense","SGA Expense","SBC Expense","Operating Income","Net Income","EBITDA","Diluted EPS"]
-        st.dataframe(ist[dc].style.format("{:,.0f}", subset=[c for c in dc if c!="Diluted EPS"]).format("{:.2f}", subset=["Diluted EPS"]).background_gradient(cmap="RdYlGn", axis=1), use_container_width=True)
+        st.dataframe(ist[dc].style.format("{:,.0f}", subset=[c for c in dc if c!="Diluted EPS"]).format("{:.2f}", subset=["Diluted EPS"]), use_container_width=True)
         fig = go.Figure()
         fig.add_trace(go.Scatter(x=ist.index, y=(ist["Gross Profit"]/ist["Total Revenue"]*100), name="Gross Margin", line=dict(color=C[0], width=2.5), mode="lines+markers"))
         fig.add_trace(go.Scatter(x=ist.index, y=(ist["Operating Income"]/ist["Total Revenue"]*100), name="GAAP Op Margin", line=dict(color=C[1], width=2.5), mode="lines+markers"))
@@ -311,10 +311,10 @@ elif page == "The Bull Case":
         fig.add_trace(go.Scatter(x=ist.index, y=ist["Adj Operating Margin%"], name="Adj Op Margin", line=dict(color=C[4], width=3, dash="dash"), mode="lines+markers"))
         al(fig, "Margin Evolution (2020–2025)"); st.plotly_chart(fig, use_container_width=True)
         with st.expander("Balance Sheet ($M)"):
-            st.dataframe(BALANCE_SHEET.style.format("{:,.0f}").background_gradient(cmap="Blues", axis=1), use_container_width=True)
+            st.dataframe(BALANCE_SHEET.style.format("{:,.0f}"), use_container_width=True)
         with st.expander("Cash Flow & FCF Waterfall"):
             cfc = ["Operating Cash Flow","Capital Expenditure","Free Cash Flow","SBC","FCF Margin %"]
-            st.dataframe(CASH_FLOW[cfc].style.format("{:,.0f}", subset=[c for c in cfc if c!="FCF Margin %"]).format("{:.1f}", subset=["FCF Margin %"]).background_gradient(cmap="RdYlGn", axis=1), use_container_width=True)
+            st.dataframe(CASH_FLOW[cfc].style.format("{:,.0f}", subset=[c for c in cfc if c!="FCF Margin %"]).format("{:.1f}", subset=["FCF Margin %"]), use_container_width=True)
             cf25 = CASH_FLOW.loc[2025]
             fig = go.Figure(go.Waterfall(
                 x=["Net Income","+D&A","+SBC","+WC Changes","=Operating CF","-CapEx","=Free Cash Flow"],
@@ -327,7 +327,7 @@ elif page == "The Bull Case":
             al(fig, "FY2025 Free Cash Flow Bridge ($M)", 420); st.plotly_chart(fig, use_container_width=True)
     with t2:
         tt("ratio_analysis")
-        st.dataframe(KEY_RATIOS.style.format("{:.1f}").background_gradient(cmap="RdYlGn", axis=0), use_container_width=True)
+        st.dataframe(KEY_RATIOS.style.format("{:.1f}"), use_container_width=True)
         col1, col2 = st.columns(2)
         with col1:
             fig = go.Figure()
@@ -341,7 +341,7 @@ elif page == "The Bull Case":
             al(fig, "Liquidity & Solvency"); st.plotly_chart(fig, use_container_width=True)
         st.markdown("### DuPont Decomposition")
         tt("dupont_analysis"); st.markdown("**ROE = Net Profit Margin × Asset Turnover × Equity Multiplier**")
-        st.dataframe(DUPONT.style.format("{:.4f}").background_gradient(cmap="RdYlGn", axis=0), use_container_width=True)
+        st.dataframe(DUPONT.style.format("{:.4f}"), use_container_width=True)
         fig = make_subplots(rows=1, cols=3, subplot_titles=("Net Profit Margin","Asset Turnover","Equity Multiplier"))
         fig.add_trace(go.Bar(x=DUPONT.index, y=DUPONT["Net Profit Margin"], marker_color=C[0], name="Margin"), row=1, col=1)
         fig.add_trace(go.Bar(x=DUPONT.index, y=DUPONT["Asset Turnover"], marker_color=C[1], name="Turnover"), row=1, col=2)
@@ -351,7 +351,7 @@ elif page == "The Bull Case":
         st.markdown("### Horizontal Analysis — YoY % Change"); tt("horizontal_analysis")
         horiz = ist[["Total Revenue","Gross Profit","Operating Income","Net Income","EBITDA"]].pct_change() * 100
         horiz = horiz.dropna(how="all")
-        st.dataframe(horiz.style.format("{:+.1f}%").background_gradient(cmap="RdYlGn", axis=1, vmin=-50, vmax=100), use_container_width=True)
+        st.dataframe(horiz.style.format("{:+.1f}%"), use_container_width=True)
         fig = go.Figure()
         for i, col in enumerate(["Total Revenue","Gross Profit","Net Income"]):
             fig.add_trace(go.Bar(x=horiz.index, y=horiz[col], name=col, marker_color=C[i]))
@@ -540,7 +540,7 @@ elif page == "The Valuation Test":
             "Rev Growth (%)": "{:.1f}%", "Gross Margin (%)": "{:.1f}%",
             "Op Margin (%)": "{:.1f}%", "FCF Margin (%)": "{:.1f}%",
             "EV/Revenue": "{:.1f}x", "P/S": "{:.1f}x", "ROE (%)": "{:.1f}%", "Beta": "{:.2f}",
-        }).background_gradient(cmap="RdYlGn", subset=["Rev Growth (%)","Op Margin (%)","FCF Margin (%)"]),
+        }),
             use_container_width=True)
         pex = peer[peer["Ticker"] != "PLTR"]
         med_evr = pex["EV/Revenue"].median()
