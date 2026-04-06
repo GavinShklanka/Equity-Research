@@ -29,6 +29,8 @@ h1 {{ color: {B['maroon']} !important; font-family: 'Source Serif 4', Georgia, s
 h2 {{ color: {B['navy']} !important; font-family: 'Source Serif 4', Georgia, serif !important; font-weight: 600 !important; border-bottom: 2px solid {B['gold']}; padding-bottom: 6px; font-size: 1.25rem !important; }}
 h3 {{ color: {B['text']} !important; font-family: 'Inter', sans-serif !important; font-weight: 500 !important; font-size: 1.0rem !important; }}
 p, li, span {{ font-family: 'Inter', sans-serif; color: {B['text']}; line-height: 1.6; }}
+
+/* ── Sidebar ─────────────────────────────────────────────── */
 section[data-testid="stSidebar"] {{ background: linear-gradient(180deg, {B['maroon']} 0%, #4A1522 100%); }}
 section[data-testid="stSidebar"] * {{ color: #F5ECF0 !important; }}
 section[data-testid="stSidebar"] h2 {{ color: #FFFFFF !important; border-bottom-color: {B['gold']} !important; }}
@@ -39,19 +41,29 @@ section[data-testid="stSidebar"] div[role="radiogroup"] label p {{ color: #F5ECF
 section[data-testid="stSidebar"] .stCaption, section[data-testid="stSidebar"] small {{ color: #C8A8B4 !important; font-size: 0.8rem !important; }}
 section[data-testid="stSidebar"] .stToggle label {{ color: #F5ECF0 !important; }}
 section[data-testid="stSidebar"] hr {{ border-color: rgba(255,255,255,0.15) !important; }}
+
+/* ── Metric cards ────────────────────────────────────────── */
 div[data-testid="stMetric"] {{ background: {B['surface']}; border: 1px solid {B['border']}; border-radius: 8px; padding: 14px 18px; }}
 div[data-testid="stMetric"] label {{ color: {B['muted']} !important; font-size: 0.78rem !important; text-transform: uppercase; letter-spacing: 0.04em; }}
 div[data-testid="stMetric"] [data-testid="stMetricValue"] {{ color: {B['text']} !important; font-weight: 600 !important; }}
+
+/* ── Tabs ────────────────────────────────────────────────── */
 .stTabs [data-baseweb="tab-list"] {{ gap: 2px; background: {B['sfa']}; border-radius: 8px; padding: 3px; }}
 .stTabs [data-baseweb="tab"] {{ border-radius: 6px; padding: 8px 16px; color: {B['text']}; font-weight: 500; font-size: 0.85rem; }}
 .stTabs [aria-selected="true"] {{ background: {B['maroon']} !important; color: #FFFFFF !important; }}
 .stTabs [aria-selected="true"] p, .stTabs [aria-selected="true"] span {{ color: #FFFFFF !important; }}
+
+/* ── Data frames & expanders ─────────────────────────────── */
 .stDataFrame {{ border-radius: 8px; overflow: hidden; border: 1px solid {B['border']}; }}
 .streamlit-expanderHeader {{ background: {B['sfa']} !important; border-radius: 6px; color: {B['text']} !important; font-weight: 500; }}
 .streamlit-expanderHeader p, .streamlit-expanderHeader span {{ color: {B['text']} !important; }}
+
+/* ── Page header components ──────────────────────────────── */
 .pq {{ font-family: 'Source Serif 4', serif; font-size: 1.4rem; font-weight: 600; color: {B['maroon']}; line-height: 1.3; margin-bottom: 4px; }}
 .pa {{ font-size: 0.95rem; color: {B['text']}; font-weight: 500; padding: 10px 16px; background: {B['surface']}; border-left: 3px solid {B['gold']}; border-radius: 0 6px 6px 0; margin-bottom: 4px; }}
 .pi {{ font-size: 0.85rem; color: {B['muted']}; font-style: italic; margin-bottom: 18px; }}
+
+/* ── Callout boxes ───────────────────────────────────────── */
 .cbox {{ background: {B['surface']}; border: 1px solid {B['border']}; border-radius: 8px; padding: 12px 16px; margin: 8px 0; font-size: 0.88rem; line-height: 1.5; color: {B['text']}; }}
 .cbox .cl {{ font-weight: 700; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 5px; display: block; }}
 .cbox.cs {{ border-left: 3px solid {B['pos']}; }}
@@ -62,28 +74,52 @@ div[data-testid="stMetric"] [data-testid="stMetricValue"] {{ color: {B['text']} 
 .cbox.cn .cl {{ color: {B['navy']}; }}
 .cbox.cv {{ border-left: 3px solid {B['maroon']}; }}
 .cbox.cv .cl {{ color: {B['maroon']}; }}
+
+/* ── Chart captions ──────────────────────────────────────── */
 .cap {{ font-size: 0.82rem; color: {B['muted']}; margin-top: -8px; margin-bottom: 14px; line-height: 1.5; }}
 .cap strong {{ color: {B['text']}; }}
+
+/* ── Section rule ────────────────────────────────────────── */
 .sr {{ height: 1px; background: linear-gradient(90deg, transparent, {B['border']}, transparent); margin: 1.5rem 0; }}
+
+/* ── Educational tooltips ────────────────────────────────── */
 .tt {{ background: rgba(110,34,51,0.04); border: 1px solid rgba(110,34,51,0.12); border-radius: 8px; padding: 10px 14px; margin: 6px 0 12px; font-size: 0.82rem; }}
 .tt .tl {{ color: {B['maroon']}; font-weight: 600; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.05em; }}
 .tt .tf {{ font-family: monospace; color: {B['navy']}; background: rgba(50,75,107,0.06); padding: 2px 6px; border-radius: 3px; display: inline-block; }}
 </style>""", unsafe_allow_html=True)
 
-_AX = dict(gridcolor="rgba(216,205,210,0.5)", linecolor=B["border"],
+_AX = dict(
+    gridcolor="rgba(216,205,210,0.5)",
+    linecolor=B["border"],
     tickfont=dict(family="Inter", color=B["text"], size=11),
-    title_font=dict(family="Inter", color=B["text"], size=12), showgrid=True)
-PL = dict(template="plotly_white", paper_bgcolor="rgba(0,0,0,0)",
-    plot_bgcolor="rgba(247,244,241,0.3)", font=dict(family="Inter", color=B["text"], size=12),
+    title_font=dict(family="Inter", color=B["text"], size=12),
+    showgrid=True,
+)
+PL = dict(
+    template="plotly_white",
+    paper_bgcolor="rgba(0,0,0,0)",
+    plot_bgcolor="rgba(247,244,241,0.3)",
+    font=dict(family="Inter", color=B["text"], size=12),
     margin=dict(l=50, r=30, t=55, b=50),
     legend=dict(bgcolor="rgba(255,255,255,0.85)", font=dict(family="Inter", color=B["text"], size=11),
-                bordercolor=B["border"], borderwidth=1), xaxis=_AX, yaxis=_AX)
+                bordercolor=B["border"], borderwidth=1),
+    xaxis=_AX,
+    yaxis=_AX,
+)
 
 def al(fig, title="", h=450):
-    fig.update_layout(**PL, title=dict(text=title,
-        font=dict(family="Source Serif 4, Georgia, serif", size=15, color=B["navy"]),
-        x=0, xanchor="left", pad=dict(l=4)), height=h)
+    fig.update_layout(
+        **PL,
+        title=dict(
+            text=title,
+            font=dict(family="Source Serif 4, Georgia, serif", size=15, color=B["navy"]),
+            x=0, xanchor="left", pad=dict(l=4),
+        ),
+        height=h,
+    )
+    # Make all bar/scatter text labels dark and readable
     fig.update_traces(textfont=dict(color=B["text"], family="Inter", size=11))
+    # Make all hline/vline annotation text dark
     for ann in fig.layout.annotations:
         ann.update(font=dict(color=B["text"], family="Inter", size=11))
     return fig
@@ -194,31 +230,6 @@ if page == "The Market Puzzle":
         al(fig, "Revenue & Adjusted Operating Margin Trajectory")
         st.plotly_chart(fig, use_container_width=True)
 
-    sr()
-    st.markdown("## Multiple Expansion — How the Market Repriced PLTR")
-    tt("valuation_multiples")
-    ist_me = INCOME_STATEMENT
-    ev_rev_hist = {2020: 32.5, 2021: 20.1, 2022: 9.8, 2023: 22.4, 2024: 55.0, 2025: 81.6}
-    rev_growth = ist_me["Total Revenue"].pct_change() * 100
-    fig_me = make_subplots(specs=[[{"secondary_y": True}]])
-    fig_me.add_trace(go.Bar(
-        x=list(ev_rev_hist.keys()), y=list(ev_rev_hist.values()),
-        name="EV/Revenue", marker_color=C[0], opacity=0.85,
-        text=[f"{v:.1f}x" for v in ev_rev_hist.values()], textposition="outside"
-    ), secondary_y=False)
-    fig_me.add_trace(go.Scatter(
-        x=rev_growth.dropna().index.tolist(), y=rev_growth.dropna().values.tolist(),
-        name="Revenue Growth %", line=dict(color=C[2], width=3), mode="lines+markers"
-    ), secondary_y=True)
-    fig_me.update_yaxes(title_text="EV/Revenue Multiple", secondary_y=False)
-    fig_me.update_yaxes(title_text="Revenue Growth (%)", secondary_y=True)
-    al(fig_me, "EV/Revenue Multiple vs Revenue Growth (2020–2025)")
-    st.plotly_chart(fig_me, use_container_width=True)
-    cap("This chart shows how the market's willingness to pay per dollar of revenue has changed alongside growth. The multiple collapsed in 2022 and surged with AI momentum.",
-        "The 2022 trough (9.8×) coincided with rate hikes; the 2024–25 re-rating to 81× reflects AI-driven optimism. Multiple expansion has contributed more to returns than revenue growth itself — a fragile dynamic.")
-    cbox("Signal", "From 2022 low to 2025: the stock re-rated from 9.8× to 81.6× — an 8× multiple expansion that dwarfs the 2.5× revenue growth over the same period.", "s")
-    cbox("Implication", "When multiple expansion drives most of the return, future performance depends on sentiment sustaining — not just fundamentals delivering. This is the core fragility of the PLTR thesis.", "c")
-
 # ═══════════════════════════════════════════════════════════════════════════
 # PAGE 2: WHAT PALANTIR DOES
 # ═══════════════════════════════════════════════════════════════════════════
@@ -239,28 +250,6 @@ elif page == "What Palantir Does":
     c1, c2, c3 = st.columns(3)
     for col, (prod, desc) in zip([c1, c2, c3], COMPANY_INFO["products"].items()):
         with col: st.markdown(f"### {prod}"); st.markdown(desc)
-    sr()
-    st.markdown("## Origin & Platform Timeline")
-    timeline_events = [
-        ("2003", "Founded", "Peter Thiel, Alex Karp, and Stephen Cohen found Palantir Technologies in Palo Alto, backed by CIA venture arm In-Q-Tel."),
-        ("2008", "Gotham Deployed", "Gotham reaches production use across U.S. intelligence agencies. The company operates entirely on government contracts."),
-        ("2016", "Foundry Launch", "Palantir launches Foundry, its commercial data integration platform, marking the first serious push beyond government."),
-        ("2020", "Direct Listing", "Palantir goes public via direct listing on NYSE at ~$10/share. Revenue: $1.1B. Operating loss: -$1.2B (GAAP)."),
-        ("2023", "AIP Launch", "Artificial Intelligence Platform (AIP) launches, enabling LLM deployment on customer data. Boot camp go-to-market model begins."),
-        ("2024", "S&P 500 Entry", "Joins S&P 500 and Nasdaq-100. Revenue growth re-accelerates. US Commercial becomes fastest-growing segment."),
-        ("2025", "Scale Inflection", "Revenue hits $4.5B (+56% YoY). FCF margin: 51%. Rule of 40 score: 107. Market cap reaches ~$365B."),
-    ]
-    for yr, title, desc in timeline_events:
-        st.markdown(f"""<div style="display:flex;gap:16px;margin-bottom:14px;">
-            <div style="min-width:58px;text-align:right;font-weight:600;color:{B['maroon']};font-family:'Source Serif 4',serif;font-size:1.05rem;">{yr}</div>
-            <div style="border-left:3px solid {B['gold']};padding-left:16px;">
-                <div style="font-weight:600;color:{B['navy']};font-size:0.95rem;">{title}</div>
-                <div style="color:{B['text']};font-size:0.88rem;line-height:1.5;">{desc}</div>
-            </div>
-        </div>""", unsafe_allow_html=True)
-    cap("This timeline traces Palantir's evolution from a CIA-backed intelligence startup to an enterprise AI platform company.",
-        "The 20-year journey from founding to $365B market cap is unusual — 17 years of operating losses before profitability. The AIP launch in 2023 was the inflection that re-rated the stock.")
-
     sr(); st.markdown("## U.S. Commercial Acceleration")
     cbox("Signal", "US Commercial grew from $156M (2020) to $1,370M (2025) — a 9× increase driven by AIP boot camp conversions.", "s")
     us_c = seg["US Commercial"]; gr = us_c.pct_change() * 100
@@ -378,23 +367,6 @@ elif page == "The Bull Case":
         r20 = ist.loc[2020,"Total Revenue"]; r25 = ist.loc[2025,"Total Revenue"]
         st.metric("5-Year Revenue CAGR (2020–2025)", f"{((r25/r20)**(1/5)-1)*100:.1f}%")
 
-        sr()
-        st.markdown("### Vertical (Common-Size) Analysis"); tt("vertical_analysis")
-        vert_cols = ["Total Revenue","Cost of Revenue","Gross Profit","R&D Expense","SGA Expense","SBC Expense","Operating Income","Net Income"]
-        ist_v = ist[vert_cols].copy()
-        vert = ist_v.div(ist_v["Total Revenue"], axis=0) * 100
-        vert.columns = [f"{c} %" for c in vert.columns]
-        st.dataframe(vert.style.format("{:.1f}%"), use_container_width=True)
-        fig_v = go.Figure()
-        for i, col in enumerate(["Cost of Revenue %","R&D Expense %","SGA Expense %","SBC Expense %"]):
-            fig_v.add_trace(go.Bar(x=vert.index, y=vert[col], name=col.replace(" %",""), marker_color=C[i % len(C)]))
-        fig_v.update_layout(barmode="stack")
-        al(fig_v, "Cost Structure as % of Revenue (Common-Size)", 380)
-        st.plotly_chart(fig_v, use_container_width=True)
-        cap("This chart shows how each cost category consumes revenue. A shrinking stack means improving operating leverage.",
-            "SBC's share has declined dramatically (from 105% to 15.6%), driving the profitability crossover. R&D and SGA are also compressing — a sign of genuine scale economics, not just accounting adjustments.")
-        cbox("Signal", "Gross margin has been remarkably stable at 80–82% while operating costs as a % of revenue collapsed — classic platform operating leverage.", "s")
-
 # ═══════════════════════════════════════════════════════════════════════════
 # PAGE 4: THE BEAR CASE
 # ═══════════════════════════════════════════════════════════════════════════
@@ -403,6 +375,7 @@ elif page == "The Bear Case":
        "The stock trades at 81× revenue, insiders have sold billions in shares, stock-based compensation remains 15.6% of revenue, and hyperscalers are investing aggressively in competing platforms.",
        "Every high-expectation stock looks strong on fundamentals. The question is whether the risks are priced in or priced out.")
 
+    # Hero: SBC as % of revenue — the clearest non-obvious bear argument
     ist = INCOME_STATEMENT
     sbc_pct = ist["SBC Expense"] / ist["Total Revenue"] * 100
     fig = go.Figure()
@@ -424,8 +397,6 @@ elif page == "The Bear Case":
     sr()
     st.markdown("## Risk Register")
     risks = [
-        ("Revenue Recognition Risk", "HIGH",
-         "Palantir uses ASC 606 with significant judgment in multi-element arrangements. Government contracts often bundle platform licenses, customization, and ongoing support. Determining standalone selling prices for each element requires estimates that can shift revenue timing between periods. Investors should monitor deferred revenue trends and remaining performance obligations (RPO) for signs of pull-forward or deferral."),
         ("Valuation Risk", "HIGH",
          "At ~81× EV/Revenue, this is among the most expensive large-cap software stocks ever. The valuation requires sustained exceptional execution for years. Any growth miss risks severe multiple compression."),
         ("Competition", "MEDIUM-HIGH",
@@ -450,6 +421,7 @@ elif page == "The Bear Case":
     st.markdown("## AI Ecosystem Exposure")
     st.markdown(f"<span style='color:{B['muted']}; font-size:0.9rem'>Palantir benefits from the AI wave but is exposed to ecosystem-level sentiment shifts. Partnership upside and dependency risk coexist.</span>", unsafe_allow_html=True)
 
+    # Partnership summary table
     p_rows = []
     for p in AI_ECOSYSTEM_DATA["partnerships"]:
         p_rows.append({"Partner": p["partner"], "Type": p["type"],
@@ -473,59 +445,6 @@ elif page == "The Bear Case":
          "Palantir uses a multi-class share structure that concentrates voting control with founders. CEO Alex Karp's leadership style is unconventional by large-cap standards. These are not disqualifying factors, but they represent governance risk that institutional investors weigh carefully.",
          "n")
 
-    sr()
-    st.markdown("## 17-Year Operating Loss Record (S-1 Data)")
-    pre_ipo_years = list(range(2003, 2024))
-    pre_ipo_losses = [
-        -5, -12, -28, -45, -60, -85, -120, -150, -180, -220, -280, -340,
-        -420, -500, -623, -576, -1174, -847, -414, 120, 390
-    ]
-    colors_loss = [B["neg"] if v < 0 else B["pos"] for v in pre_ipo_losses]
-    fig_loss = go.Figure()
-    fig_loss.add_trace(go.Bar(
-        x=pre_ipo_years, y=pre_ipo_losses,
-        marker_color=colors_loss,
-        text=[f"${v:,}M" for v in pre_ipo_losses],
-        textposition=["outside" if v < 0 else "outside" for v in pre_ipo_losses]
-    ))
-    fig_loss.add_hline(y=0, line_color=B["muted"], line_width=1.5)
-    fig_loss.add_vrect(x0=2019.5, x1=2020.5, fillcolor=B["gold"], opacity=0.15,
-        annotation_text="IPO", annotation_position="top")
-    al(fig_loss, "Palantir Operating Income/Loss by Year (2003–2023)", 380)
-    st.plotly_chart(fig_loss, use_container_width=True)
-    cap("This chart shows Palantir's 17 consecutive years of operating losses before turning profitable in 2023 — a timeline that tests investor patience.",
-        "Cumulative pre-profitability losses exceeded $5B. The IPO year (2020) was the worst at -$1.17B due to direct listing SBC charges. The 2023 crossover is real, but the history explains why skeptics remain wary.")
-    cbox("Counterpoint", "17 years of losses is unusual but not disqualifying — Amazon lost money for ~9 years. The question is whether the profitability is structural or cyclical. The SBC normalization trend suggests structural.", "c")
-
-    sr()
-    st.markdown("## AI Sentiment Scenario Analysis")
-    st.markdown(f"<span style='color:{B['muted']};font-size:0.88rem'>How would different AI ecosystem shifts affect Palantir's valuation?</span>", unsafe_allow_html=True)
-    ai_scenarios = [
-        {"scenario": "AI Winter", "trigger": "Major AI model failure or regulation freezes enterprise adoption",
-         "pltr_impact": "Revenue growth decelerates to 15–20%. Multiple compresses to 20–30×. Stock: $40–60.",
-         "probability": "10–15%", "tone": "neg"},
-        {"scenario": "Hyperscaler Displacement", "trigger": "AWS/Azure/GCP build native Palantir-like platforms bundled with cloud",
-         "pltr_impact": "Commercial growth stalls. Government moat holds. Revenue flat. Stock: $60–90.",
-         "probability": "20–25%", "tone": "neg"},
-        {"scenario": "Steady State", "trigger": "AI adoption grows but competition intensifies normally",
-         "pltr_impact": "Growth decelerates to 25–35%. Multiple settles at 40–50×. Stock: $100–140.",
-         "probability": "35–40%", "tone": "n"},
-        {"scenario": "AIP Dominance", "trigger": "AIP becomes the enterprise standard for LLM deployment",
-         "pltr_impact": "Growth sustains 45%+. Margins expand. Multiple holds 60–80×. Stock: $180–250.",
-         "probability": "15–20%", "tone": "s"},
-        {"scenario": "Platform Monopoly", "trigger": "Regulatory moat + network effects create winner-take-all in gov+enterprise AI",
-         "pltr_impact": "Revenue CAGR 50%+ for 5 years. FCF margins >40%. Stock: $300+.",
-         "probability": "5–10%", "tone": "s"},
-    ]
-    for sc in ai_scenarios:
-        tone_color = B["neg"] if sc["tone"] == "neg" else B["pos"] if sc["tone"] == "s" else B["gold"]
-        with st.expander(f"**{sc['scenario']}** — Probability: {sc['probability']}"):
-            st.markdown(f'<div style="border-left:3px solid {tone_color};padding-left:12px;">', unsafe_allow_html=True)
-            st.markdown(f"**Trigger:** {sc['trigger']}")
-            st.markdown(f"**PLTR Impact:** {sc['pltr_impact']}")
-            st.markdown("</div>", unsafe_allow_html=True)
-    cbox("Implication", "The probability-weighted expected value skews toward the 'Steady State' and 'Hyperscaler Displacement' scenarios. The current stock price (~$153) is pricing the 'AIP Dominance' scenario as the base case — which carries only 15–20% estimated probability.", "c")
-
 # ═══════════════════════════════════════════════════════════════════════════
 # PAGE 5: THE VALUATION TEST
 # ═══════════════════════════════════════════════════════════════════════════
@@ -534,6 +453,7 @@ elif page == "The Valuation Test":
        f"Under base-case assumptions (WACC 10%, TG 3%), our DCF implies a fair-value range of $80–$130 — suggesting the current price of {fmt_p(MARKET_DATA['current_price'])} already embeds years of exceptional execution.",
        "The sensitivity table — not any single price target — is the honest output of this model. Small changes in assumptions create large swings in implied value.")
 
+    # Hero: DCF sensitivity heatmap
     wacc_range = [0.08, 0.09, 0.10, 0.11, 0.12, 0.13]
     tg_range = [0.02, 0.025, 0.03, 0.035, 0.04]
     sens = {}
@@ -620,7 +540,8 @@ elif page == "The Valuation Test":
             "Rev Growth (%)": "{:.1f}%", "Gross Margin (%)": "{:.1f}%",
             "Op Margin (%)": "{:.1f}%", "FCF Margin (%)": "{:.1f}%",
             "EV/Revenue": "{:.1f}x", "P/S": "{:.1f}x", "ROE (%)": "{:.1f}%", "Beta": "{:.2f}",
-        }), use_container_width=True)
+        }),
+            use_container_width=True)
         pex = peer[peer["Ticker"] != "PLTR"]
         med_evr = pex["EV/Revenue"].median()
         implied_ev = CR * med_evr
@@ -632,38 +553,6 @@ elif page == "The Valuation Test":
             colors_bar = [B["maroon"] if t == "PLTR" else C[0] for t in peer["Ticker"]]
             fig.add_trace(go.Bar(x=peer["Ticker"], y=peer[metric], marker_color=colors_bar, showlegend=False), row=1, col=i+1)
         al(fig, "PLTR vs Peers — Key Multiples", 380); st.plotly_chart(fig, use_container_width=True)
-
-        sr()
-        st.markdown("### Peer Radar Comparison")
-        radar_metrics = ["Rev Growth (%)", "Gross Margin (%)", "Op Margin (%)", "FCF Margin (%)", "ROE (%)"]
-        radar_available = [m for m in radar_metrics if m in peer.columns]
-        if len(radar_available) >= 3:
-            pltr_row = peer[peer["Ticker"] == "PLTR"]
-            fig_radar = go.Figure()
-            norm_data = {}
-            for m in radar_available:
-                vals = peer[m].dropna()
-                mn, mx = vals.min(), vals.max()
-                norm_data[m] = (peer[m] - mn) / (mx - mn) * 100 if mx > mn else peer[m] * 0 + 50
-            pltr_vals = [float(norm_data[m][peer["Ticker"] == "PLTR"].iloc[0]) for m in radar_available]
-            pltr_vals.append(pltr_vals[0])
-            labels = [m.replace(" (%)", "") for m in radar_available]
-            labels_closed = labels + [labels[0]]
-            fig_radar.add_trace(go.Scatterpolar(
-                r=pltr_vals, theta=labels_closed, fill="toself",
-                name="PLTR", line=dict(color=B["maroon"], width=3), fillcolor="rgba(110,34,51,0.15)"))
-            med_vals = [float(norm_data[m][peer["Ticker"] != "PLTR"].median()) for m in radar_available]
-            med_vals.append(med_vals[0])
-            fig_radar.add_trace(go.Scatterpolar(
-                r=med_vals, theta=labels_closed, fill="toself",
-                name="Peer Median", line=dict(color=C[0], width=2, dash="dash"), fillcolor="rgba(50,75,107,0.08)"))
-            fig_radar.update_layout(polar=dict(bgcolor=B["surface"],
-                radialaxis=dict(visible=True, range=[0, 100], showticklabels=False, gridcolor=B["border"])),
-                height=420, paper_bgcolor=B["bg"], font=dict(family="Inter", color=B["text"]),
-                legend=dict(orientation="h", yanchor="bottom", y=-0.15, xanchor="center", x=0.5))
-            st.plotly_chart(fig_radar, use_container_width=True)
-            cap("This radar chart normalizes key metrics to compare PLTR's financial profile against the peer median. A larger area means stronger overall performance.",
-                "PLTR dominates on growth and margins but the radar doesn't show valuation — where PLTR is the outlier. Strong fundamentals at an extreme price is the central tension.")
 
     with t3:
         st.markdown("### Bull / Base / Bear Scenarios")
@@ -746,6 +635,7 @@ elif page == "The Verdict":
        "Palantir is a fundamentally strong business trading at a valuation that prices in years of sustained exceptional execution — making it a high-conviction position with a thin margin of safety.",
        "The purpose of equity research is not to produce a single number. It is to understand what you are betting on — and what would have to go wrong.")
 
+    # Hero: scenario bar with current price line
     scenarios = {
         "Bull": {"growth": [0.65,0.55,0.45,0.38,0.32,0.28,0.24], "fcf_m": 0.32, "wacc": 0.09, "tg": 0.04},
         "Base": {"growth": [0.55,0.42,0.32,0.26,0.22,0.18,0.16], "fcf_m": 0.28, "wacc": 0.10, "tg": 0.03},
@@ -800,7 +690,7 @@ It means the margin for error is thin.
 """, unsafe_allow_html=True)
 
     sr()
-    tv1, tv2, tv3, tv4, tv5 = st.tabs(["How AI Was Used", "What AI Got Right", "What AI Got Wrong", "What We Accepted", "What We Discarded"])
+    tv1, tv2, tv3 = st.tabs(["How AI Was Used", "What We Accepted", "What We Discarded"])
 
     with tv1:
         st.markdown("### AI-Assisted Analysis — Section 2.B")
@@ -816,32 +706,6 @@ It means the margin for error is thin.
             with st.expander(f"**{title}**"): st.markdown(body)
 
     with tv2:
-        st.markdown("### What AI Got Right — Section 2.C")
-        st.markdown(f"<span style='color:{B['muted']};font-size:0.88rem'>Areas where AI analysis proved accurate and added genuine value</span>", unsafe_allow_html=True)
-        ai_right = [
-            ("Revenue Acceleration Detection", "AI correctly identified that Palantir's revenue growth was accelerating at scale — an unusual pattern that most analysts initially dismissed. The data confirmed: 17% (2022) → 26% (2023) → 29% (2024) → 56% (2025). AI flagged this as statistically significant before consensus shifted."),
-            ("SBC Trajectory Modeling", "AI projected that SBC as a % of revenue would continue declining based on the historical trend. This proved correct: 105% (2020) → 15.6% (2025). The decline curve AI identified was more aggressive than consensus estimates, and turned out to be right."),
-            ("Balance Sheet Fortress Identification", "AI correctly emphasized the strategic significance of Palantir's zero-debt, $7.2B net cash position. In a rising-rate environment, this balance sheet strength became a genuine competitive advantage that the market rewarded."),
-            ("AIP as Inflection Catalyst", "AI identified AIP's boot camp model as a structural growth driver before the revenue impact was fully visible. The conversion-to-production pipeline AI modeled closely matched the actual US Commercial acceleration trajectory."),
-            ("DuPont Decomposition Insight", "AI's DuPont analysis correctly identified that ROE improvement was driven primarily by margin expansion (not leverage or turnover) — a healthier pattern that suggests sustainable profitability."),
-        ]
-        for title, body in ai_right:
-            with st.expander(f"✅ **{title}**"): st.markdown(body)
-
-    with tv3:
-        st.markdown("### What AI Got Wrong — Section 2.C")
-        st.markdown(f"<span style='color:{B['muted']};font-size:0.88rem'>Areas where AI analysis was inaccurate, biased, or required human correction</span>", unsafe_allow_html=True)
-        ai_wrong = [
-            ("Valuation Anchoring Bias", "AI consistently anchored to DCF fair values that implicitly justified the current price. Initial base-case estimates were ~$140–160 — suspiciously close to the market price. Human correction: we used sensitivity ranges instead of point estimates, revealing the base case is actually $80–130."),
-            ("Growth Persistence Overestimation", "AI's base-case revenue projections assumed 35–45% CAGR over 7 years. At $4.5B scale, this would require Palantir to reach $40–60B in revenue by 2032 — larger than ServiceNow, Snowflake, and Datadog combined. Human correction: applied more aggressive decay rates."),
-            ("Competition Underweighting", "AI analysis consistently underweighted hyperscaler competition. It treated Microsoft, AWS, and Google as complementary rather than competitive — despite clear evidence of platform overlap in enterprise AI deployment. Human correction: elevated competitive risk in the risk register."),
-            ("Insider Selling Dismissal", "AI framed CEO share sales as 'routine 10b5-1 plans' and downplayed the signal. While technically correct, the scale ($4B+ in sales) and sustained duration warranted more critical treatment. Human correction: included as a distinct risk factor."),
-            ("Linear Margin Extrapolation", "AI extrapolated FCF margins to 40%+ within 3 years based on the recent trend. Operating leverage has limits — especially as the company scales into competitive enterprise segments where sales cycles are longer and margins lower. Human correction: capped steady-state assumptions at 28–32%."),
-        ]
-        for title, body in ai_wrong:
-            with st.expander(f"⚠️ **{title}**"): st.markdown(body)
-
-    with tv4:
         st.markdown("### What We Accepted — Section 2.C")
         accepted = [
             "The **directional thesis** that Palantir is a legitimate AI platform leader, not merely a government contractor",
@@ -854,7 +718,7 @@ It means the margin for error is thin.
         for item in accepted:
             st.markdown(f"✅ {item}")
 
-    with tv5:
+    with tv3:
         st.markdown("### What We Discarded or Modified — Section 2.C")
         discarded = [
             ("Point-estimate DCF valuations", "We use sensitivity tables and scenario ranges. A single implied price creates false precision."),
