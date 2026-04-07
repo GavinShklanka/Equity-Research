@@ -14,6 +14,7 @@ from pltr_data import (
     ANALYST_DATA, GUIDANCE, compute_ratios,
     GLOBAL_FOOTPRINT, EXPANSION_SIGNALS, AI_ECOSYSTEM_DATA, TOOLTIP_CONTENT,
 )
+import presentation_page
 
 st.set_page_config(page_title="PLTR Equity Research | MBAN5570", page_icon="📄", layout="wide", initial_sidebar_state="expanded")
 
@@ -132,6 +133,7 @@ with st.sidebar:
     st.markdown('<hr style="border-color:rgba(255,255,255,0.12); margin: 4px 0 10px 0;">', unsafe_allow_html=True)
     st.markdown('<p style="font-family:Inter,sans-serif; font-size:0.7rem; text-transform:uppercase; letter-spacing:0.1em; color:#C8A8B4; margin-bottom:6px;">Investigation</p>', unsafe_allow_html=True)
     page = st.radio("Investigation", [
+        "Presentation",
         "The Market Puzzle",
         "What Palantir Does",
         "The Bull Case",
@@ -155,7 +157,9 @@ with st.sidebar:
 # ═══════════════════════════════════════════════════════════════════════════
 # PAGE 1: THE MARKET PUZZLE
 # ═══════════════════════════════════════════════════════════════════════════
-if page == "The Market Puzzle":
+if page == "Presentation":
+    presentation_page.render(B, C, sr, cbox, cap, ph, al)
+elif page == "The Market Puzzle":
     ph("Why is Palantir priced like no other software company?",
        f"At ~${MARKET_DATA['market_cap_B']:.0f}B market cap and ~81× EV/Revenue, Palantir trades at roughly six times the valuation multiple of its closest peers.",
        "Either the market sees a structural advantage that justifies an extreme premium, or this is a sentiment-driven anomaly that will eventually correct.")

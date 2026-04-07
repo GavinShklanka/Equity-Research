@@ -3,3 +3,10 @@ __pycache__/
 .venv/
 venv/
 .env
+*.backup*
+app_backup.py
+app_with_presentation.py
+streamlit_out.txt
+streamlit_err.txt
+Equity-Research-main/
+.gemini/
