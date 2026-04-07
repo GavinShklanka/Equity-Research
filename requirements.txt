@@ -1,4 +1,8 @@
+# App: app.py, presentation_page.py, pltr_data.py
+# Optional: data_pipeline.py (live data)
 streamlit>=1.30.0
 plotly>=5.18.0
 pandas>=2.0.0
 numpy>=1.24.0
+yfinance>=0.2.30
+requests>=2.28.0
