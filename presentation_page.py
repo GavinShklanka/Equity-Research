@@ -1,10 +1,11 @@
 """
-PLTR Equity Research — Presentation Page (10-Step Stepper)
-Standalone module. render() accepts B, C, and helpers from app.py.
+PLTR Equity Research — Presentation Page (7-Step Merged Stepper)
+"Beyond the Numbers" — mirrors 5-slide PPT deck.
 """
 import streamlit as st
 import plotly.graph_objects as go
 import pandas as pd
+import numpy as np
 from pltr_data import (
     INCOME_STATEMENT, CASH_FLOW, MARKET_DATA, PEER_COMPARISON,
     REVENUE_SEGMENTS, BALANCE_SHEET,
@@ -12,17 +13,14 @@ from pltr_data import (
 
 STEP_TITLES = [
     "Mission Briefing",
-    "From Hardware Primes to Software Brain",
-    "The Four-Platform Stack",
-    "Apollo: The Hidden Moat",
-    "Apollo: Peer Evaluation Findings",
-    "Apollo: Moat Scores & Risk Matrix",
-    "The Competitive Landscape",
-    "The Financial Evidence",
-    "Where Palantir Sits in the Security Stack",
-    "Is Palantir One of One?",
+    "The First Software Prime",
+    "The Gotham Data Moat",
+    "Apollo: What Nobody Else Has",
+    "Apollo: Peer Evaluation & Risk",
+    "Intelligence Infrastructure, Not SaaS",
+    "The Digital Twin Flywheel",
 ]
-TOTAL = 10
+TOTAL = 7
 
 
 def render(B, C, sr, cbox, cap, ph, al):
@@ -30,18 +28,14 @@ def render(B, C, sr, cbox, cap, ph, al):
         st.session_state.pres_step = 0
     step = st.session_state.pres_step
 
-    # ── Progress bar ──
     st.progress(step / (TOTAL - 1))
-
-    # ── Step title ──
     st.markdown(f"""
     <div style="font-family:'Source Serif 4',Georgia,serif;font-size:1.5rem;color:{B['navy']};
          font-weight:700;margin:8px 0 4px 0;">{STEP_TITLES[step]}</div>
     <div style="font-family:Inter,sans-serif;font-size:0.78rem;color:{B['muted']};
-         margin-bottom:16px;">Step {step + 1} of {TOTAL}</div>
+         margin-bottom:12px;">Step {step + 1} of {TOTAL}</div>
     """, unsafe_allow_html=True)
 
-    # ── Dot indicators ──
     dot_cols = st.columns(TOTAL)
     for i, dc in enumerate(dot_cols):
         with dc:
@@ -51,11 +45,8 @@ def render(B, C, sr, cbox, cap, ph, al):
                 st.rerun()
     sr()
 
-    # ── Step routing ──
-    funcs = [_s0, _s1, _s2, _s3, _s4, _s5, _s6, _s7, _s8, _s9]
-    funcs[step](B, C, sr, cbox, cap, ph, al)
+    [_s0, _s1, _s2, _s3, _s4, _s5, _s6][step](B, C, sr, cbox, cap, ph, al)
 
-    # ── Nav buttons ──
     sr()
     nl, _, nr = st.columns([1, 3, 1])
     with nl:
@@ -72,496 +63,401 @@ def render(B, C, sr, cbox, cap, ph, al):
 
 
 # ═══════════════════════════════════════════════════════════════════════════
-# STEP 0 — MISSION BRIEFING
+# STEP 0 — MISSION + BUY
 # ═══════════════════════════════════════════════════════════════════════════
 def _s0(B, C, sr, cbox, cap, ph, al):
-    st.markdown(f"""
-    <div style="background:{B['surface']};border-left:4px solid {B['maroon']};
-         border-radius:8px;padding:28px 32px;margin-bottom:18px;">
-      <div style="font-family:'Source Serif 4',Georgia,serif;color:{B['maroon']};
-           font-size:1.4rem;font-weight:700;margin-bottom:6px;">
-        MBAN5570 Equity Research Investigation</div>
-      <div style="font-family:Inter,sans-serif;color:{B['navy']};
-           font-size:1.05rem;font-weight:600;margin-bottom:14px;">
-        Palantir Technologies — The Exception Case</div>
-      <div style="font-family:Inter,sans-serif;color:{B['text']};
-           font-size:0.92rem;line-height:1.8;">
-        This investigation asks a single question: Is Palantir priced like no other software company
-        because it IS structurally different — or because the market currently believes it is? Over six
-        chapters, we examine the origins, platforms, financials, competitive landscape, and valuation of
-        a company that has spent 17 years building infrastructure that most of its competitors cannot
-        yet replicate.</div>
-      <div style="margin-top:16px;display:flex;gap:10px;flex-wrap:wrap;">
-        <span style="border:1px solid {B['gold']};color:{B['maroon']};border-radius:20px;
-              padding:4px 14px;font-family:Inter,sans-serif;font-size:0.78rem;">MBAN5570</span>
-        <span style="border:1px solid {B['gold']};color:{B['maroon']};border-radius:20px;
-              padding:4px 14px;font-family:Inter,sans-serif;font-size:0.78rem;">Sobey School of Business</span>
-        <span style="border:1px solid {B['gold']};color:{B['maroon']};border-radius:20px;
-              padding:4px 14px;font-family:Inter,sans-serif;font-size:0.78rem;">Dr. Mohammad M. Rahaman</span>
-      </div>
-    </div>""", unsafe_allow_html=True)
-    r1, r2 = st.columns(2)
-    with r1:
-        st.markdown(f"""<div style="font-family:Inter,sans-serif;font-size:0.8rem;color:{B['muted']};line-height:2.0;">
-         1 · Mission Briefing<br> 2 · Primes to Software Brain<br> 3 · Four-Platform Stack<br>
-         4 · Apollo: Hidden Moat<br> 5 · Apollo: Peer Evaluation</div>""", unsafe_allow_html=True)
-    with r2:
-        st.markdown(f"""<div style="font-family:Inter,sans-serif;font-size:0.8rem;color:{B['muted']};line-height:2.0;">
-         6 · Moat Scores &amp; Risk<br> 7 · Competitive Landscape<br> 8 · Financial Evidence<br>
-         9 · Security Stack<br>10 · One of One</div>""", unsafe_allow_html=True)
+    lc, rc = st.columns([3, 1])
+    with lc:
+        st.markdown(f"""
+        <div style="background:{B['surface']};border-left:4px solid {B['maroon']};
+             border-radius:8px;padding:24px 28px;">
+          <div style="font-family:'Source Serif 4',Georgia,serif;color:{B['maroon']};
+               font-size:1.3rem;font-weight:700;margin-bottom:4px;">BEYOND THE NUMBERS</div>
+          <div style="font-family:Inter,sans-serif;color:{B['navy']};
+               font-size:1.0rem;font-weight:600;margin-bottom:10px;">
+            Why Palantir Is a National Security Necessity — Not Just a Software Stock</div>
+          <div style="font-family:Inter,sans-serif;color:{B['text']};font-size:0.88rem;line-height:1.6;">
+            Is Palantir priced like no other software company because it IS structurally different
+            — or because the market currently believes it is?</div>
+          <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap;">
+            <span style="border:1px solid {B['gold']};color:{B['maroon']};border-radius:20px;
+                  padding:3px 12px;font-family:Inter,sans-serif;font-size:0.75rem;">MBAN5570</span>
+            <span style="border:1px solid {B['gold']};color:{B['maroon']};border-radius:20px;
+                  padding:3px 12px;font-family:Inter,sans-serif;font-size:0.75rem;">Sobey School of Business</span>
+            <span style="border:1px solid {B['gold']};color:{B['maroon']};border-radius:20px;
+                  padding:3px 12px;font-family:Inter,sans-serif;font-size:0.75rem;">Dr. Mohammad M. Rahaman</span>
+          </div>
+        </div>""", unsafe_allow_html=True)
+    with rc:
+        st.markdown(f"""
+        <div style="background:{B['pos']};border-radius:10px;padding:20px;text-align:center;margin-top:4px;">
+          <div style="color:#FFF;font-size:2.2rem;font-weight:800;letter-spacing:0.08em;">BUY</div>
+          <div style="color:#FFF;font-size:0.85rem;margin-top:4px;">PLTR · NYSE</div>
+          <div style="color:rgba(255,255,255,0.7);font-size:0.75rem;margin-top:2px;">April 2026</div>
+        </div>""", unsafe_allow_html=True)
+
+    p1, p2, p3 = st.columns(3)
+    for col, title, body in [
+        (p1, "STRUCTURAL MOAT", "17 years of classified infrastructure no competitor can replicate"),
+        (p2, "FINANCIAL INFLECTION", "Rule of 40: 107. FCF 51%. Zero debt. $7.2B net cash."),
+        (p3, "CATEGORY CREATION", "Not SaaS — the non-optional decision layer of a $5T+ defense complex"),
+    ]:
+        with col:
+            st.markdown(f"""
+            <div style="background:{B['surface']};border-top:3px solid {B['maroon']};
+                 border-radius:0 0 6px 6px;padding:14px 16px;margin-top:10px;">
+              <div style="font-family:Inter,sans-serif;font-size:0.72rem;font-weight:700;
+                   color:{B['maroon']};letter-spacing:0.06em;margin-bottom:4px;">{title}</div>
+              <div style="font-family:Inter,sans-serif;font-size:0.82rem;color:{B['text']};
+                   line-height:1.5;">{body}</div>
+            </div>""", unsafe_allow_html=True)
 
 
 # ═══════════════════════════════════════════════════════════════════════════
-# STEP 1 — FROM HARDWARE PRIMES TO SOFTWARE BRAIN
+# STEP 1 — THE FIRST SOFTWARE PRIME
 # ═══════════════════════════════════════════════════════════════════════════
 def _s1(B, C, sr, cbox, cap, ph, al):
-    cbox("Context",
-         "For 70 years, defense meant hardware. Lockheed Martin built the F-35. General Dynamics built "
-         "the Abrams. Northrop Grumman built the B-21 Raider. The primes won wars by building the machines. "
-         "Palantir's thesis is that the next era of defense is won by the software that operates them — and "
-         "that no company has spent more time building that software in classified environments than Palantir.", "n")
-    try:
-        pr = INCOME_STATEMENT.loc[2024, "Total Revenue"]
-        prs = f"${pr/1000:.1f}B" if pr >= 1000 else f"${pr:.0f}M"
-    except Exception:
-        prs = "~$2.9B"
-    pm = f"~${MARKET_DATA.get('market_cap_B', 365):.0f}B"
-    data = pd.DataFrame([
-        {"Company": "Lockheed Martin", "Category": "Hardware Prime", "Product": "F-35, missiles",
-         "Rev FY2024": "~$71B", "Mkt Cap": "~$105B"},
-        {"Company": "General Dynamics", "Category": "Hardware Prime", "Product": "Gulfstream, Abrams",
-         "Rev FY2024": "~$48B", "Mkt Cap": "~$65B"},
-        {"Company": "Northrop Grumman", "Category": "Hardware Prime", "Product": "B-21, ISR",
-         "Rev FY2024": "~$41B", "Mkt Cap": "~$65B"},
-        {"Company": "Raytheon (RTX)", "Category": "Hardware Prime", "Product": "Missiles, radar",
-         "Rev FY2024": "~$80B", "Mkt Cap": "~$145B"},
-        {"Company": "Palantir (PLTR)", "Category": "Software Brain",
-         "Product": "Gotham/Foundry/AIP/Apollo", "Rev FY2024": prs, "Mkt Cap": pm},
-    ])
-    st.dataframe(data, use_container_width=True, hide_index=True)
-    cap("Palantir's market cap has exceeded the combined value of the three largest defense primes "
-        "despite 1/25th their revenue.",
-        "The premium reflects a thesis: marginal defense value is shifting from platform manufacturing "
-        "to AI-driven decision intelligence. If correct, Palantir is early. If wrong, the multiple compresses severely.")
-    cbox("Signal",
-         "In August 2025, Palantir's market cap exceeded $443B — surpassing Lockheed, Raytheon, and "
-         "Northrop combined. The market has already voted. The question is whether the fundamentals catch up.", "s")
+    lc, rc = st.columns(2)
+    with lc:
+        st.markdown(f"""
+        <div style="font-family:Inter,sans-serif;">
+          <div style="background:{B['border']};border-radius:6px;padding:12px 14px;margin-bottom:6px;">
+            <div style="font-size:0.72rem;font-weight:700;color:{B['navy']};letter-spacing:0.05em;margin-bottom:3px;">THE BODY</div>
+            <div style="font-size:0.85rem;color:{B['text']};">Lockheed, RTX, Northrop — build the platforms, missiles, satellites</div>
+          </div>
+          <div style="text-align:center;color:{B['muted']};font-size:0.8rem;padding:4px 0;">↓ data flows up · decisions flow down ↓</div>
+          <div style="background:{B['maroon']};border-radius:6px;padding:12px 14px;margin-bottom:8px;">
+            <div style="font-size:0.72rem;font-weight:700;color:{B['gold']};letter-spacing:0.05em;margin-bottom:3px;">THE BRAIN</div>
+            <div style="font-size:0.85rem;color:#FFF;">Palantir integrates classified data into a single actionable picture — then supports the decision</div>
+          </div>
+          <div style="font-size:0.85rem;color:{B['navy']};font-weight:700;line-height:1.4;">
+            The primes build the weapons. Palantir decides when, where, and how to use them.</div>
+        </div>""", unsafe_allow_html=True)
+    with rc:
+        fig = go.Figure(go.Bar(
+            x=["1996", "2010", "2024", "2035 (proj.)"],
+            y=[1186, 2003, 2676, 5650],
+            marker_color=[C[0], C[0], C[0], B["gold"]],
+            text=["$1.2T", "$2.0T", "$2.7T", "$5.7T"], textposition="outside"))
+        al(fig, "Global Military Spending ($B, 2023 prices)", 220)
+        st.plotly_chart(fig, use_container_width=True)
+        st.markdown(f"""<div style="font-family:Inter,sans-serif;font-size:0.72rem;color:{B['muted']};margin-top:-8px;">
+            Source: SIPRI (1996–2024); NATO Hague 5% Pledge (2035)</div>""", unsafe_allow_html=True)
+        st.markdown(f"""<div style="font-family:Inter,sans-serif;font-size:0.8rem;color:{B['muted']};
+            font-style:italic;margin-top:4px;">
+            All NATO Allies met 2% GDP by March 2026. Hague pledge commits to 5% by 2035.
+            Palantir is embedded in the institutions that control this capital.</div>""", unsafe_allow_html=True)
+
+    cols = st.columns(5)
+    primes = [("LMT", "Hardware", "~$71B rev", "~$105B cap"),
+              ("GD", "Hardware", "~$48B rev", "~$65B cap"),
+              ("NOC", "Hardware", "~$41B rev", "~$65B cap"),
+              ("RTX", "Hardware", "~$80B rev", "~$145B cap"),
+              ("PLTR", "Software Brain", "$4.5B rev", f"~${MARKET_DATA.get('market_cap_B',365):.0f}B cap")]
+    for i, (tick, cat, rev, mcap) in enumerate(primes):
+        is_pltr = i == 4
+        bg = B["maroon"] if is_pltr else B["surface"]
+        tc = "#FFF" if is_pltr else B["text"]
+        with cols[i]:
+            st.markdown(f"""<div style="background:{bg};border-radius:6px;padding:8px 10px;text-align:center;
+                 font-family:Inter,sans-serif;">
+              <div style="font-size:0.85rem;font-weight:700;color:{tc};">{tick}</div>
+              <div style="font-size:0.7rem;color:{'rgba(255,255,255,0.7)' if is_pltr else B['muted']};">{cat}</div>
+              <div style="font-size:0.72rem;color:{tc};margin-top:2px;">{rev}</div>
+              <div style="font-size:0.72rem;color:{tc};">{mcap}</div>
+            </div>""", unsafe_allow_html=True)
 
 
 # ═══════════════════════════════════════════════════════════════════════════
-# STEP 2 — THE FOUR-PLATFORM STACK
+# STEP 2 — THE GOTHAM DATA MOAT
 # ═══════════════════════════════════════════════════════════════════════════
 def _s2(B, C, sr, cbox, cap, ph, al):
-    st.markdown(f"""<div style="font-family:Inter,sans-serif;color:{B['text']};font-size:0.92rem;
-        line-height:1.65;margin-bottom:16px;">
-        Palantir does not sell a single product. It sells a vertically integrated software operating system
-        for data-driven institutions. Understanding the four layers is prerequisite to evaluating the moat.
-    </div>""", unsafe_allow_html=True)
-    _pill = lambda c, t: f'<span style="border:1px solid {c};color:{c};border-radius:20px;padding:3px 12px;font-size:0.75rem;">{t}</span>'
-    r1a, r1b = st.columns(2)
-    with r1a:
-        st.markdown(f"<div style='font-family:Source Serif 4,Georgia,serif;color:{B['navy']};font-size:1.1rem;font-weight:700;'>Gotham</div>", unsafe_allow_html=True)
-        st.markdown(_pill(B["navy"], "Defense & Intelligence"), unsafe_allow_html=True)
-        st.markdown("Launched 2008. Built with CIA analysts. Integrates classified data, detects patterns, "
-                     "supports targeting. Used by DoD, FBI, NSA, CIA, Europol, Ukraine military. FDE model "
-                     "embeds engineers inside agencies. IL5/IL6 accredited. The government moat.")
-    with r1b:
-        st.markdown(f"<div style='font-family:Source Serif 4,Georgia,serif;color:{B['navy']};font-size:1.1rem;font-weight:700;'>Foundry</div>", unsafe_allow_html=True)
-        st.markdown(_pill(B["navy"], "Commercial Enterprise"), unsafe_allow_html=True)
-        st.markdown("Launched 2016. Ontology layer connecting every data source, workflow, and decision. "
-                     "Airbus quadrupled A350 production. Ferrari F1. NHS England. Morgan Stanley. "
-                     "Replacement cost measured in years.")
-    r2a, r2b = st.columns(2)
-    with r2a:
-        st.markdown(f"<div style='font-family:Source Serif 4,Georgia,serif;color:{B['navy']};font-size:1.1rem;font-weight:700;'>AIP</div>", unsafe_allow_html=True)
-        st.markdown(_pill(B["gold"], "AI Orchestration"), unsafe_allow_html=True)
-        st.markdown("Launched April 2023. LLMs on classified customer data behind their firewall with "
-                     "audit trails. US Commercial grew 137% YoY. Boot camp converts pilots to production "
-                     "in weeks. TITAN and Maven Smart System run on AIP.")
-    with r2b:
-        st.markdown(f"<div style='font-family:Source Serif 4,Georgia,serif;color:{B['maroon']};font-size:1.1rem;font-weight:700;'>Apollo</div>", unsafe_allow_html=True)
-        st.markdown(_pill(B["maroon"], "The Hidden Moat"), unsafe_allow_html=True)
-        st.markdown("Continuous deployment across commercial cloud, on-prem, air-gapped, classified, "
-                     "battlefield edge — single control plane. Pull model. Cryptographically signed. "
-                     "FedRAMP High, IL5, IL6.")
-    cbox("Implication", "These are four layers of a single operating system. Replacing Palantir means "
-         "replacing all four simultaneously.", "s")
+    lc, rc = st.columns([2, 3])
+    with lc:
+        events = [
+            ("2003", True, "Founded (CIA / In-Q-Tel seed)"),
+            ("2008", True, "Gotham launched — first classified deployment"),
+            ("2011", False, "FBI, NSA integration"),
+            ("2014", False, "Europol counter-terrorism"),
+            ("2016", False, "Foundry launched (commercial pivot)"),
+            ("2019", True, "Google exits Maven → Palantir takes it"),
+            ("2020", False, "IPO — first audited financials"),
+            ("2022", True, "IL6 provisional authorization (DISA)"),
+            ("2023", True, "AIP launched, TITAN contract begins"),
+            ("2024", True, "$10B 10-year Army contract"),
+            ("2025", False, "Market cap exceeds $443B"),
+            ("2026", True, "NATO Maven Smart System operational"),
+        ]
+        lines = []
+        for yr, major, desc in events:
+            dot_color = B["maroon"] if major else B["muted"]
+            weight = "700" if major else "400"
+            lines.append(f"""<div style="display:flex;align-items:flex-start;margin-bottom:3px;">
+              <div style="min-width:36px;font-size:0.72rem;font-weight:700;color:{B['maroon']};">{yr}</div>
+              <div style="width:8px;height:8px;border-radius:50%;background:{dot_color};margin:3px 8px 0 0;flex-shrink:0;"></div>
+              <div style="font-size:0.75rem;color:{B['text']};font-weight:{weight};line-height:1.3;">{desc}</div>
+            </div>""")
+        st.markdown(f"""<div style="font-family:Inter,sans-serif;border-left:2px solid {B['border']};
+             padding-left:8px;">{''.join(lines)}</div>""", unsafe_allow_html=True)
+
+    with rc:
+        for border_c, title, body in [
+            (B["navy"], "Active Theater Deployment",
+             "DoD · FBI · NSA · CIA · Europol · Ukraine military · NATO Maven Smart System. Forward Deployed Engineers embed inside agencies for months."),
+            (B["maroon"], "Classified Data Advantage",
+             "Operational data at IL5/IL6 — highest access tier. No hyperscaler has this access. Google withdrew from Maven. AWS/Azure cannot deploy at IL6+."),
+            (B["pos"], "Why It's Durable",
+             "Switching cost = years of re-accreditation + rebuilding the classified ontology. 20 years of track record is institutional — not replicable by better code."),
+        ]:
+            st.markdown(f"""<div style="background:{B['surface']};border-left:4px solid {border_c};
+                 border-radius:6px;padding:10px 14px;margin-bottom:8px;font-family:Inter,sans-serif;">
+              <div style="font-size:0.78rem;font-weight:700;color:{B['navy']};margin-bottom:3px;">{title}</div>
+              <div style="font-size:0.8rem;color:{B['text']};line-height:1.45;">{body}</div>
+            </div>""", unsafe_allow_html=True)
+        st.markdown(f"""<div style="font-size:0.72rem;color:{B['muted']};font-family:Inter,sans-serif;margin-top:4px;">
+            Palantir IR · DISA authorization records · NATO procurement · Presentation research</div>""", unsafe_allow_html=True)
 
 
 # ═══════════════════════════════════════════════════════════════════════════
-# STEP 3 — APOLLO: THE HIDDEN MOAT
+# STEP 3 — APOLLO: WHAT NOBODY ELSE HAS
 # ═══════════════════════════════════════════════════════════════════════════
 def _s3(B, C, sr, cbox, cap, ph, al):
-    cbox("Why This Matters",
-         "Most Palantir analysis focuses on Gotham's contracts and AIP's growth rate. Apollo is "
-         "underanalyzed — and may be the most important competitive factor.", "n")
+    k1, k2, k3, k4 = st.columns(4)
+    k1.metric("Market Position", "1 of 1", delta="No qualified competitor")
+    k2.metric("IL6-Auth CD Vendors", "< 6", delta="Apollo only CD-specific")
+    k3.metric("Avg. Patch Speed", "3.5 min", delta="Log4j crisis benchmark")
+    k4.metric("R&D Time Barrier", "5 years", delta="Palantir's documented build")
+
+    lc, rc = st.columns([3, 2])
+    with lc:
+        st.markdown(f"""<div style="background:{B['surface']};border-left:4px solid {B['maroon']};
+             border-radius:6px;padding:12px 14px;font-family:Inter,sans-serif;font-size:0.85rem;
+             color:{B['text']};line-height:1.55;">
+            Apollo is the continuous deployment infrastructure that allows Gotham, Foundry, and AIP to run
+            anywhere simultaneously — commercial cloud, on-prem, air-gapped classified networks, battlefield
+            edge devices — from a single control plane. Pull model. Cryptographically signed. FedRAMP High,
+            IL5, IL6.</div>""", unsafe_allow_html=True)
+    with rc:
+        st.dataframe(pd.DataFrame([
+            {"Capability": "Air-gapped", "Apollo": "✅", "AWS Out": "Partial", "Azure Arc": "Partial", "OpenShift": "Partial"},
+            {"Capability": "IL5/IL6", "Apollo": "✅", "AWS Out": "❌", "Azure Arc": "❌", "OpenShift": "❌"},
+            {"Capability": "FedRAMP High", "Apollo": "✅", "AWS Out": "✅", "Azure Arc": "✅", "OpenShift": "❌"},
+            {"Capability": "Foundry-aware", "Apollo": "✅", "AWS Out": "❌", "Azure Arc": "❌", "OpenShift": "❌"},
+            {"Capability": "Crypto sign", "Apollo": "✅", "AWS Out": "❌", "Azure Arc": "❌", "OpenShift": "Partial"},
+            {"Capability": "Pull-model", "Apollo": "✅", "AWS Out": "❌", "Azure Arc": "❌", "OpenShift": "❌"},
+        ]), use_container_width=True, hide_index=True)
+
+    st.markdown(f"""<div style="font-family:Inter,sans-serif;font-size:0.88rem;color:{B['navy']};
+         font-weight:700;margin-top:6px;">
+        Apollo is what hyperscalers cannot copy quickly. They can match AIP features.
+        They cannot replicate years of classified accreditation.</div>""", unsafe_allow_html=True)
+
+
+# ═══════════════════════════════════════════════════════════════════════════
+# STEPS 4–6 — PLACEHOLDERS (Pass 2 fills these)
+# ═══════════════════════════════════════════════════════════════════════════
+def _s4(B, C, sr, cbox, cap, ph, al):
     lc, rc = st.columns([3, 2])
     with lc:
         st.dataframe(pd.DataFrame([
-            {"Capability": "Air-gapped", "Apollo": "✅ Yes", "AWS Outposts": "Partial", "Azure Arc": "Partial", "OpenShift": "Partial"},
-            {"Capability": "Classified (IL5/IL6)", "Apollo": "✅ Yes", "AWS Outposts": "No", "Azure Arc": "No", "OpenShift": "No"},
-            {"Capability": "FedRAMP High", "Apollo": "✅ Yes", "AWS Outposts": "Yes", "Azure Arc": "Yes", "OpenShift": "No"},
-            {"Capability": "Foundry-aware", "Apollo": "✅ Yes", "AWS Outposts": "No", "Azure Arc": "No", "OpenShift": "No"},
-            {"Capability": "Crypto signing", "Apollo": "✅ Yes", "AWS Outposts": "No", "Azure Arc": "No", "OpenShift": "Partial"},
-            {"Capability": "Pull-model", "Apollo": "✅ Yes", "AWS Outposts": "No", "Azure Arc": "No", "OpenShift": "No"},
-            {"Capability": "Battlefield edge", "Apollo": "✅ Yes", "AWS Outposts": "No", "Azure Arc": "No", "OpenShift": "No"},
+            {"Capability": "Air-gapped", "Apollo": "✅ Native", "Spinnaker": "❌", "Argo CD": "❌", "Octopus": "⚠️", "Flux CD": "❌", "GH Actions": "❌"},
+            {"Capability": "IL6 auth", "Apollo": "✅", "Spinnaker": "❌", "Argo CD": "❌", "Octopus": "❌", "Flux CD": "❌", "GH Actions": "❌"},
+            {"Capability": "FedRAMP High", "Apollo": "✅", "Spinnaker": "❌", "Argo CD": "❌", "Octopus": "⚠️", "Flux CD": "❌", "GH Actions": "⚠️"},
+            {"Capability": "Crypto signing", "Apollo": "✅ E2E", "Spinnaker": "⚠️", "Argo CD": "⚠️", "Octopus": "⚠️", "Flux CD": "⚠️", "GH Actions": "⚠️"},
+            {"Capability": "Compliance orch", "Apollo": "✅", "Spinnaker": "⚠️", "Argo CD": "⚠️", "Octopus": "⚠️", "Flux CD": "❌", "GH Actions": "❌"},
+            {"Capability": "Fleet obs", "Apollo": "✅", "Spinnaker": "⚠️", "Argo CD": "⚠️", "Octopus": "✅", "Flux CD": "❌", "GH Actions": "❌"},
         ]), use_container_width=True, hide_index=True)
+        st.markdown(f"""<div style="font-family:Inter,sans-serif;font-size:0.85rem;color:{B['navy']};
+             font-weight:700;margin-top:6px;">
+            Clean sweep on all 4 classified requirements. No peer exceeds 2.</div>""", unsafe_allow_html=True)
     with rc:
-        st.markdown(f"""
-        <div style="background:{B['sfa']};border-radius:10px;padding:20px 22px;font-family:Inter,sans-serif;">
-          <div style="font-size:0.82rem;color:{B['muted']};margin-bottom:12px;font-weight:600;letter-spacing:0.04em;">APOLLO AT A GLANCE</div>
-          <div style="font-size:0.85rem;color:{B['text']};line-height:2.2;">
-            <strong>Accreditations</strong> → FedRAMP High | IL5 | IL6<br>
-            <strong>Environments</strong> → Cloud + On-Prem + Air-Gap + Edge<br>
-            <strong>Architecture</strong> → Pull Model<br>
-            <strong>Security</strong> → Cryptographic signing<br>
-            <strong>Speed</strong> → &lt; 90 min field deployment<br>
-            <strong>Competition</strong> → 0 direct classified competitors
-          </div>
-        </div>""", unsafe_allow_html=True)
-    cbox("Verdict", "Apollo is what hyperscalers cannot copy quickly. Microsoft and AWS can match AIP features. "
-         "They cannot replicate years of classified accreditation and ontology-native architecture.", "v")
-
-
-# ═══════════════════════════════════════════════════════════════════════════
-# STEP 4 — APOLLO: PEER EVALUATION FINDINGS
-# ═══════════════════════════════════════════════════════════════════════════
-def _s4(B, C, sr, cbox, cap, ph, al):
-    cbox("Research Note",
-         "Peers selected by shared buyer and function — not category. Hyperscalers excluded: they "
-         "provide the rack, Apollo decides what goes on it. Comparing Apollo to Azure is like "
-         "comparing FedEx to an Amazon warehouse.", "n")
-    k1, k2, k3, k4 = st.columns(4)
-    k1.metric("Market Position — Classified CD", "1 of 1", delta="No qualified competitor")
-    k2.metric("IL6-Authorized CD Vendors", "< 6", delta="Apollo only CD-specific")
-    k3.metric("Avg. Patch Speed", "3.5 min", delta="All environments incl. air-gapped")
-    k4.metric("R&D Barrier to Replicate", "5 years", delta="Palantir's documented build time")
-    sr()
-    st.dataframe(pd.DataFrame([
-        {"Segment": "Cloud-native / SaaS", "Description": "Connected, standard compliance", "Apollo Position": "Peripheral"},
-        {"Segment": "Enterprise Hybrid", "Description": "On-prem + cloud, some compliance", "Apollo Position": "Competitive but contested"},
-        {"Segment": "Classified / Disconnected", "Description": "Air-gapped, DDIL, IL5/IL6", "Apollo Position": "DOMINANT — no competitor"},
-    ]), use_container_width=True, hide_index=True)
-    cbox("Segmentation Insight",
-         "Evaluating Apollo against Argo CD or GitHub Actions head-to-head is a category error — "
-         "equivalent to comparing Goldman Sachs prime brokerage to Robinhood because both involve equities.", "n")
-    sr()
-    st.dataframe(pd.DataFrame([
-        {"Capability": "Air-gapped deployment", "Apollo": "✅ Native", "Spinnaker/Armory": "❌", "Argo CD": "❌", "Octopus Deploy": "⚠️ Limited", "Flux CD": "❌", "GitHub Actions": "❌"},
-        {"Capability": "DoD IL6 authorization", "Apollo": "✅ Authorized", "Spinnaker/Armory": "❌", "Argo CD": "❌", "Octopus Deploy": "❌", "Flux CD": "❌", "GitHub Actions": "❌"},
-        {"Capability": "FedRAMP High", "Apollo": "✅ Certified", "Spinnaker/Armory": "❌", "Argo CD": "❌", "Octopus Deploy": "⚠️ In progress", "Flux CD": "❌", "GitHub Actions": "⚠️ Moderate"},
-        {"Capability": "Cryptographic signing", "Apollo": "✅ End-to-end", "Spinnaker/Armory": "⚠️ Plugin", "Argo CD": "⚠️ Cosign", "Octopus Deploy": "⚠️ Partial", "Flux CD": "⚠️ Cosign", "GitHub Actions": "⚠️ Attestation"},
-        {"Capability": "Compliance orchestration", "Apollo": "✅ Native", "Spinnaker/Armory": "⚠️ Gates", "Argo CD": "⚠️ Add-on", "Octopus Deploy": "⚠️ Add-on", "Flux CD": "❌", "GitHub Actions": "❌"},
-        {"Capability": "Multi-cloud (all types)", "Apollo": "✅ All", "Spinnaker/Armory": "✅ Public", "Argo CD": "⚠️ K8s-only", "Octopus Deploy": "✅ Hybrid", "Flux CD": "⚠️ K8s-only", "GitHub Actions": "⚠️ Cloud-native"},
-        {"Capability": "Canary / blue-green", "Apollo": "✅ Built-in", "Spinnaker/Armory": "✅ Core", "Argo CD": "✅ Rollouts", "Octopus Deploy": "⚠️ Supported", "Flux CD": "⚠️ Flagger", "GitHub Actions": "⚠️ Manual"},
-        {"Capability": "Fleet observability", "Apollo": "✅ Native", "Spinnaker/Armory": "⚠️ Per-cluster", "Argo CD": "⚠️ Per-cluster", "Octopus Deploy": "✅ Strong", "Flux CD": "❌", "GitHub Actions": "❌"},
-        {"Capability": "Open-source", "Apollo": "❌ Commercial", "Spinnaker/Armory": "✅", "Argo CD": "✅", "Octopus Deploy": "❌ Commercial", "Flux CD": "✅", "GitHub Actions": "✅ Free tier"},
-        {"Capability": "Pricing", "Apollo": "Enterprise contract", "Spinnaker/Armory": "Free / Armory", "Argo CD": "Free / Codefresh", "Octopus Deploy": "Per-target", "Flux CD": "Free", "GitHub Actions": "Per-minute"},
-    ]), use_container_width=True, hide_index=True)
-    cbox("Matrix Reading", "Apollo is the only product with a clean sweep across all four classified requirements: "
-         "air-gapped, IL6, crypto signing, compliance orchestration. No peer achieves more than two.", "s")
-
-
-# ═══════════════════════════════════════════════════════════════════════════
-# STEP 5 — APOLLO: MOAT SCORES & RISK MATRIX
-# ═══════════════════════════════════════════════════════════════════════════
-def _s5(B, C, sr, cbox, cap, ph, al):
-    dims = ["Pricing accessibility", "Developer ecosystem", "Gov. brand & distribution",
-            "Technical replication cost", "Operational history advantage",
-            "Switching cost — compliance", "Security accreditation barrier"]
-    scores = [10, 28, 80, 85, 88, 92, 96]
-    colors = [B["pos"] if s >= 80 else (B["gold"] if s >= 30 else B["neg"]) for s in scores]
-    fig = go.Figure(go.Bar(y=dims, x=scores, orientation='h', marker_color=colors,
-                           text=[str(s) for s in scores], textposition="outside"))
-    fig.add_vline(x=50, line_dash="dash", line_color=B["muted"], line_width=1)
-    fig.add_annotation(x=96, y="Security accreditation barrier", text="Classified CD defining barrier",
-                       showarrow=True, arrowhead=2, ax=80, ay=-20, font=dict(size=10, color=B["navy"]))
-    fig.add_annotation(x=10, y="Pricing accessibility", text="Intentional — not Apollo's market",
-                       showarrow=True, arrowhead=2, ax=100, ay=20, font=dict(size=10, color=B["muted"]))
-    al(fig, "Apollo Structural Moat Scoring (out of 100)", 380)
-    st.plotly_chart(fig, use_container_width=True)
-    cap("80–96 on every dimension that matters. Near-zero where it doesn't. A classified DoD customer cannot use community plugins.",
-        "Moat asymmetry is key. Risk emerges only if Apollo expands into segments where low scores become relevant.")
-
-    with st.expander("✅ Structural Advantages (Durable)"):
-        st.markdown(f"""
-**Only IL6-authorized CD platform.** Fewer than six vendors of any type hold DoD IL6 authorization.
-No CD-specific peer holds this accreditation. It is not a product feature — it is a structural permission
-granted by the DoD after years of demonstrated compliance, and cannot be bypassed by competing on product
-quality alone.
-
-**Native DDIL architecture.** Apollo's Remote Hub was specifically designed for Denied, Disrupted,
-Intermittent, and Limited connectivity — the operating condition of deployed military systems. This was
-the founding design requirement that triggered Apollo's construction.
-
-**Compliance encoding creates compounding lock-in.** Every year a customer operates Apollo, more of their
-compliance rules, downtime windows, CVE SLAs, and approval chains become encoded in the platform. This
-institutional knowledge is not portable — it would need to be rebuilt from scratch on any replacement.
-
-**Demonstrated crisis performance.** Apollo patched Log4j vulnerabilities across 200+ environments —
-including air-gapped and classified — within hours of the exploit going public. No peer can claim
-equivalent operational proof in classified environments.
-
-**Five years of proprietary R&D as a hard time barrier.** Palantir's own documentation states that
-building Apollo took five years longer than anticipated. Any competitor choosing to build a comparable
-system faces the same timeline — with Apollo already deeply embedded throughout.
-""")
-
-    with st.expander("⚠️ Real Limitations (Genuine Constraints)"):
-        st.markdown(f"""
-**Enterprise-only sales model creates addressable market ceiling.** No free tier. No self-serve. No trial.
-This structurally excludes the entire long tail of cloud-native startups and mid-market companies. Apollo
-cannot address this market without fundamentally changing its go-to-market model.
-
-**No Kustomize or cdk8s templating support.** For Kubernetes-native teams with GitOps-centric workflows,
-this is a real gap that creates migration friction. If this gap widens, Apollo risks ceding the enterprise
-hybrid segment to Octopus Deploy or Argo CD.
-
-**Steep learning curve.** Apollo's sophistication is a liability for organizations without specialized
-DevSecOps teams. For straightforward multi-cloud deployments, operational overhead is disproportionate
-versus simpler alternatives.
-
-**Revenue contribution not separately disclosed.** Palantir does not break out Apollo revenue from overall
-platform revenue. This creates analytical opacity that limits investor confidence in Apollo as a standalone
-product investment thesis.
-
-**Hyperscaler encroachment risk on 5–7 year horizon.** Microsoft Azure Government holds IL6 cloud
-infrastructure authorization. AWS GovCloud is investing heavily. Neither currently offers a CD orchestration
-layer comparable to Apollo — but their resources mean this threat cannot be dismissed on long enough time
-horizons.
-""")
-
-    with st.expander("⚪ Apparent Weaknesses That Are Actually Market Trade-offs"):
-        st.markdown(f"""
-**Not open-source** — In classified government environments, open-source software with unknown contributors
-is a security liability, not an advantage. Apollo's proprietary status is a feature in this market, not a
-limitation.
-
-**No community ecosystem** — Community-contributed plugins cannot be used in accredited environments. The
-absence of an open-source community is irrelevant to Apollo's core customers.
-
-**'Overkill for simple deployments'** — Apollo is expensive and complex for single-cloud SaaS. This is
-correct and intentional. Evaluating Apollo against that use case is like faulting a submarine for being
-slow on a highway.
-""")
-
-    sr()
-    risk = pd.DataFrame([
-        {"Risk": "Hyperscaler CD competition", "Severity": "MEDIUM", "Timeline": "5–7 yr",
-         "Description": "AWS/Azure building classified infra, no CD product yet. Accreditation alone = 3–5 yr."},
-        {"Risk": "DoD budget disruption", "Severity": "MEDIUM", "Timeline": "Recurring",
-         "Description": "CRs can delay. Cancellation unlikely given embedding depth."},
-        {"Risk": "Open-source replication", "Severity": "LOW", "Timeline": "3–5 yr",
-         "Description": "Still needs IL6 accreditation independently."},
-        {"Risk": "Kustomize / GitOps gap", "Severity": "LOW", "Timeline": "Near-term",
-         "Description": "Risks enterprise hybrid segment if unaddressed."},
-        {"Risk": "IL6 authorization revocation", "Severity": "HIGH (low prob)", "Timeline": "Tail risk",
-         "Description": "Would require major security incident. 20-year track record."},
-    ])
-    def _sc(v):
-        if "HIGH" in str(v): return f"color: {B['neg']}"
-        if "MEDIUM" in str(v): return f"color: {B['gold']}"
-        if "LOW" in str(v): return f"color: {B['pos']}"
-        return ""
-    st.dataframe(risk.style.map(_sc, subset=["Severity"]), use_container_width=True, hide_index=True)
-    sr()
-    st.markdown(f"""
-    <div style="background:{B['navy']};color:#FFF;border-radius:8px;padding:24px 28px;margin-bottom:14px;">
-      <div style="color:{B['gold']};font-family:monospace;font-variant:small-caps;font-size:0.85rem;
-           font-weight:700;margin-bottom:8px;letter-spacing:0.04em;">
-        PRODUCT EVALUATION FINDING: UNCONTESTED WITHIN ITS DEFINED MARKET</div>
-      <div style="font-family:Inter,sans-serif;font-size:0.9rem;line-height:1.75;">
-        The peer evaluation finds Apollo holds an effectively uncontested position within the classified,
-        air-gapped, and disconnected CD market. Grounded in three structural barriers unique to Apollo:
-        DoD IL6 authorization (one of fewer than six holders across any software category), native DDIL
-        architecture built over five years of proprietary R&amp;D, and 20 years of operational history in
-        national security contexts. No peer holds all three. The bear case is real but temporally distant.</div>
-    </div>""", unsafe_allow_html=True)
-    cbox("Investor Caveat", "This evaluates Apollo as a product, not PLTR as a stock. A strong product in a narrow "
-         "market is not automatically a strong investment at any price.", "c")
-
-
-# ═══════════════════════════════════════════════════════════════════════════
-# STEP 6 — THE COMPETITIVE LANDSCAPE
-# ═══════════════════════════════════════════════════════════════════════════
-def _s6(B, C, sr, cbox, cap, ph, al):
-    cbox("Context", "Palantir has different competitors on every layer of its stack. No single company competes "
-         "across all four platforms simultaneously. That is not an accident — it is the design.", "n")
-    with st.expander("Government & Defense (Gotham competitors)"):
-        st.dataframe(pd.DataFrame([
-            {"Company": "Booz Allen Hamilton", "Overlap": "High — C4ISR", "Accreditation": "IL5/IL6", "Key Difference": "Services-led, not pure software"},
-            {"Company": "Leidos Holdings", "Overlap": "High — DoD AI, ISR", "Accreditation": "IL5", "Key Difference": "Less ontology depth"},
-            {"Company": "CACI International", "Overlap": "Medium — intel", "Accreditation": "IL4", "Key Difference": "Narrower scope"},
-            {"Company": "Northrop Grumman", "Overlap": "Medium — C2, ISR", "Accreditation": "IL5/IL6", "Key Difference": "Hardware-led"},
-            {"Company": "DataWalk", "Overlap": "Medium — investigative", "Accreditation": "Lower", "Key Difference": "No classified deployment"},
-            {"Company": "Babel Street", "Overlap": "Low-Med — OSINT", "Accreditation": "Commercial", "Key Difference": "No government depth"},
-        ]), use_container_width=True, hide_index=True)
-        cbox("Signal", "None combine Palantir's accreditation with its software-first architecture and FDE model.", "s")
-    with st.expander("Enterprise Data (Foundry competitors)"):
-        st.dataframe(pd.DataFrame([
-            {"Company": "Microsoft Fabric + Azure OpenAI", "Overlap": "High", "Strength": "Distribution, bundling", "Palantir Advantage": "Ontology depth, classified access"},
-            {"Company": "Databricks", "Overlap": "High", "Strength": "Developer adoption, open source", "Palantir Advantage": "Operational workflows"},
-            {"Company": "Snowflake", "Overlap": "Medium", "Strength": "Data economics", "Palantir Advantage": "Decision layer on top"},
-            {"Company": "C3.ai", "Overlap": "Medium", "Strength": "Enterprise AI branding", "Palantir Advantage": "More comprehensive"},
-            {"Company": "SAP (Palantir partner)", "Overlap": "Low-Medium", "Strength": "ERP integration", "Palantir Advantage": "AI layer above SAP"},
-        ]), use_container_width=True, hide_index=True)
-        cbox("Counterpoint", "Microsoft Fabric + Azure OpenAI is the most credible Foundry threat. Distribution power "
-             "could commoditize the commercial data layer.", "c")
-    with st.expander("AI Platform (AIP competitors)"):
-        st.dataframe(pd.DataFrame([
-            {"Company": "Microsoft Copilot/Azure OpenAI", "Overlap": "High", "Classified Deploy": "No (IL5+)", "Bootcamp Equiv": "No"},
-            {"Company": "Google Vertex AI", "Overlap": "High", "Classified Deploy": "No (IL5+)", "Bootcamp Equiv": "No"},
-            {"Company": "AWS Bedrock", "Overlap": "High", "Classified Deploy": "Partial (GovCloud)", "Bootcamp Equiv": "No"},
-            {"Company": "Anduril Industries", "Overlap": "Medium (defense)", "Classified Deploy": "Yes", "Bootcamp Equiv": "No"},
-            {"Company": "Scale AI", "Overlap": "Low-Medium", "Classified Deploy": "Limited", "Bootcamp Equiv": "No"},
-        ]), use_container_width=True, hide_index=True)
-        cbox("Signal", "Google withdrew from Project Maven in 2019. Palantir took the contract and never left. "
-             "That institutional trust is not purchasable.", "s")
-    with st.expander("Deployment Infrastructure (Apollo — Correct Peer Group)"):
-        st.markdown(f"""<div style="font-family:Inter,sans-serif;color:{B['text']};font-size:0.88rem;line-height:1.6;margin-bottom:12px;">
-            <strong>Why hyperscalers are NOT the peer group:</strong> Azure Government, AWS GovCloud, and Oracle Cloud
-            Isolated Region are infrastructure providers — compute, storage, networking. Apollo is the deployment
-            orchestration layer on top. Azure provides the rack. Apollo decides what goes on it and when.</div>""", unsafe_allow_html=True)
-        st.dataframe(pd.DataFrame([
-            {"Tool": "Apollo", "Air-Gap": "✅ Native", "IL6": "✅ Yes", "Crypto": "✅ Standard", "Compliance": "✅ Native", "Fleet Obs": "✅ Native"},
-            {"Tool": "Spinnaker", "Air-Gap": "❌", "IL6": "❌", "Crypto": "⚠️ Plugin", "Compliance": "⚠️ Gates", "Fleet Obs": "⚠️ Per-cluster"},
-            {"Tool": "Argo CD", "Air-Gap": "❌", "IL6": "❌", "Crypto": "⚠️ Cosign", "Compliance": "⚠️ Add-on", "Fleet Obs": "⚠️ Per-cluster"},
-            {"Tool": "Octopus", "Air-Gap": "⚠️ Limited", "IL6": "❌", "Crypto": "⚠️ Partial", "Compliance": "⚠️ Add-on", "Fleet Obs": "✅ Strong"},
-            {"Tool": "Flux CD", "Air-Gap": "❌", "IL6": "❌", "Crypto": "⚠️ Cosign", "Compliance": "❌", "Fleet Obs": "❌"},
-            {"Tool": "GitHub Actions", "Air-Gap": "❌", "IL6": "❌", "Crypto": "⚠️ Attest", "Compliance": "❌", "Fleet Obs": "❌"},
-        ]), use_container_width=True, hide_index=True)
-        cbox("Legitimate Omission", "Second Front Systems' Game Warden — FedRAMP-authorized DevSecOps — is the most legitimate "
-             "peer omission. It operates as a compliance wrapper rather than full autonomous deployment orchestration.", "n")
-
-
-# ═══════════════════════════════════════════════════════════════════════════
-# STEP 7 — THE FINANCIAL EVIDENCE
-# ═══════════════════════════════════════════════════════════════════════════
-def _s7(B, C, sr, cbox, cap, ph, al):
-    st.markdown(f"""<div style="font-family:Inter,sans-serif;color:{B['muted']};font-size:0.88rem;margin-bottom:14px;">
-        FY2025 reported results. All data from Palantir IR and SEC filings.</div>""", unsafe_allow_html=True)
-    ist, cf, seg = INCOME_STATEMENT, CASH_FLOW, REVENUE_SEGMENTS
-    rev25 = ist.loc[2025, "Total Revenue"]
-    rev20 = ist.loc[2020, "Total Revenue"]
-    cagr = ((rev25 / rev20) ** (1/5) - 1) * 100
-    usc25, usc24 = seg.loc[2025, "US Commercial"], seg.loc[2024, "US Commercial"]
-    usg = ((usc25 / usc24) - 1) * 100
-    fcfm = cf.loc[2025, "FCF Margin %"]
-    gm = round(ist.loc[2025, "Gross Profit"] / ist.loc[2025, "Total Revenue"] * 100, 1)
-    nc = BALANCE_SHEET.loc[2025, "Cash & Equivalents"] + BALANCE_SHEET.loc[2025, "Short-Term Investments"] - BALANCE_SHEET.loc[2025, "Long-Term Debt"]
-    peer = PEER_COMPARISON
-    pex = peer[peer["Ticker"] != "PLTR"]
-    pevr = peer[peer["Ticker"] == "PLTR"]["EV/Revenue"].iloc[0]
-    pmed = pex["EV/Revenue"].median()
-    m1, m2, m3, m4 = st.columns(4)
-    m1.metric("Revenue FY2025", f"${rev25/1000:.1f}B")
-    m2.metric("Revenue CAGR 2020–2025", f"{cagr:.1f}%")
-    m3.metric("US Commercial Growth YoY", f"{usg:.0f}%")
-    m4.metric("Rule of 40", "107")
-    m5, m6, m7, m8 = st.columns(4)
-    m5.metric("FCF Margin", f"{fcfm:.1f}%")
-    m6.metric("Gross Margin", f"{gm:.1f}%")
-    m7.metric("Net Cash", f"${nc/1000:.1f}B")
-    m8.metric("EV/Revenue vs Peers", f"{pevr:.0f}x vs {pmed:.0f}x")
-    c1, c2 = st.columns(2)
-    with c1:
-        fig = go.Figure(go.Bar(x=ist.index.tolist(), y=ist["Total Revenue"].tolist(),
-              marker_color=C[0], text=[f"${v:,.0f}" for v in ist["Total Revenue"]], textposition="outside"))
-        al(fig, "Revenue ($M) — 2020–2025", 280)
+        fig = go.Figure(go.Bar(
+            x=[10, 28, 80, 85, 88, 92, 96],
+            y=["Pricing", "Dev ecosystem", "Gov. distribution", "Replication cost", "Ops history", "Switching cost", "Accreditation"],
+            orientation='h',
+            marker_color=[B["neg"], B["neg"], B["gold"], B["pos"], B["pos"], B["pos"], B["pos"]],
+            text=[10, 28, 80, 85, 88, 92, 96], textposition="inside"))
+        fig.add_shape(type="line", x0=50, x1=50, y0=-0.5, y1=6.5, line=dict(color=B["muted"], width=1, dash="dash"))
+        al(fig, "", 260)
         st.plotly_chart(fig, use_container_width=True)
-    with c2:
-        fp = cf["FCF Margin %"].dropna()
-        fig2 = go.Figure(go.Scatter(x=fp.index.tolist(), y=fp.values.tolist(),
-               mode="lines+markers", line=dict(color=C[1], width=3)))
-        al(fig2, "FCF Margin (%) — 2021–2025", 280)
-        st.plotly_chart(fig2, use_container_width=True)
-    cap("Simultaneously accelerating revenue growth AND expanding margins at $4.5B scale.",
-        "Revenue CAGR of 32.5% with FCF margin expanding from negative to 51% = operating leverage at scale. The question is duration.")
-    cbox("Bull", "Rule of 40: 107. FCF: 51%. Zero debt. $7.2B cash. US Commercial 137% YoY. "
-         "10-year $10B Army contract. NATO Maven Smart System.", "s")
-    cbox("Bear", "81x EV/Rev vs 12x peer median. SBC: $700M (15.6%). GAAP margin 25% vs adjusted 51%. "
-         "Pre-IPO losses: $623M (2018), $576M (2019). The price requires years of persistence.", "c")
 
-
-# ═══════════════════════════════════════════════════════════════════════════
-# STEP 8 — WHERE PALANTIR SITS IN THE SECURITY STACK
-# ═══════════════════════════════════════════════════════════════════════════
-def _s8(B, C, sr, cbox, cap, ph, al):
-    cbox("Context", "Palantir is not a cybersecurity company. CrowdStrike, Palo Alto, Fortinet own threat "
-         "detection. Palantir operates above — the intelligence layer that makes their output actionable at scale.", "n")
-    st.markdown(f"""
-    <div style="max-width:600px;margin:16px auto;font-family:Inter,sans-serif;">
-      <div style="text-align:center;font-size:0.78rem;color:{B['muted']};margin-bottom:6px;">decisions flow down ↓</div>
-      <div style="background:{B['maroon']};color:#FFF;padding:14px;text-align:center;border-radius:8px 8px 0 0;font-weight:600;font-size:0.9rem;">
-        Decision &amp; Intelligence — PALANTIR</div>
-      <div style="background:{B['navy']};color:#FFF;padding:12px;text-align:center;font-size:0.85rem;">
-        Data Integration &amp; Ontology — FOUNDRY</div>
-      <div style="background:{B['sfa']};color:{B['text']};padding:12px;text-align:center;font-size:0.85rem;">
-        Threat Detection — CrowdStrike | Palo Alto | Fortinet</div>
-      <div style="background:{B['border']};color:{B['text']};padding:12px;text-align:center;border-radius:0 0 8px 8px;font-size:0.85rem;">
-        Infrastructure &amp; Network — Cloud / Hardware</div>
-      <div style="text-align:center;font-size:0.78rem;color:{B['muted']};margin-top:6px;">data flows up ↑</div>
-    </div>""", unsafe_allow_html=True)
     st.dataframe(pd.DataFrame([
-        {"Company": "CrowdStrike", "Category": "EDR", "vs Palantir": "Different layer — feeds data TO Palantir"},
-        {"Company": "Palo Alto", "Category": "Network security", "vs Palantir": "Different layer — budget not function"},
-        {"Company": "Fortinet", "Category": "Firewall", "vs Palantir": "Different layer"},
-        {"Company": "MS Sentinel", "Category": "SIEM/SOAR", "vs Palantir": "Partial overlap — Microsoft bundle threat"},
-        {"Company": "Splunk (Cisco)", "Category": "SIEM/analytics", "vs Palantir": "Medium overlap — enterprise data"},
-    ]), use_container_width=True, hide_index=True)
-    cbox("Implication", "Palantir is less exposed to the cybersecurity cycle than it appears. The real commercial "
-         "threat is Microsoft bundling Copilot into the same data layer.", "n")
+        {"Risk": "Hyperscaler CD", "Severity": "MEDIUM", "Timeline": "5–7 yr"},
+        {"Risk": "DoD budget disruption", "Severity": "MEDIUM", "Timeline": "Recurring"},
+        {"Risk": "Open-source replication", "Severity": "LOW", "Timeline": "3–5 yr"},
+        {"Risk": "Kustomize gap", "Severity": "LOW", "Timeline": "Near-term"},
+        {"Risk": "IL6 revocation", "Severity": "HIGH ↓", "Timeline": "Tail risk"}
+    ]).style.map(lambda x: f"color: {B['neg']}" if "HIGH" in str(x) else (f"color: {B['gold']}" if "MEDIUM" in str(x) else (f"color: {B['pos']}" if "LOW" in str(x) else "")), subset=["Severity"]), use_container_width=True, hide_index=True)
+
+    st.markdown(f"""<div style="background:{B['navy']};color:#FFF;border-radius:6px;padding:10px;
+         text-align:center;font-family:Inter,sans-serif;font-size:0.85rem;font-weight:700;margin-top:8px;">
+        UNCONTESTED WITHIN ITS DEFINED MARKET</div>""", unsafe_allow_html=True)
+
+def _s5(B, C, sr, cbox, cap, ph, al):
+    c1, c2, c3 = st.columns(3)
+    c1.markdown(f"""<div style="background:{B['surface']};border-left:4px solid {B['neg']};
+         border-radius:6px;padding:8px 12px;font-family:Inter,sans-serif;font-size:0.78rem;">
+         <strong style="color:{B['neg']}">WRONG</strong> · <span style="text-decoration:line-through;">SaaS peer group → 82× looks irrational</span></div>""", unsafe_allow_html=True)
+    c2.markdown(f"""<div style="background:{B['surface']};border-left:4px solid {B['gold']};
+         border-radius:6px;padding:8px 12px;font-family:Inter,sans-serif;font-size:0.78rem;">
+         <strong style="color:{B['gold']}">CLOSER</strong> · Defense prime + software margins = no historical comp</div>""", unsafe_allow_html=True)
+    c3.markdown(f"""<div style="background:{B['surface']};border-left:4px solid {B['pos']};
+         border-radius:6px;padding:8px 12px;font-family:Inter,sans-serif;font-size:0.78rem;font-weight:700;">
+         <strong style="color:{B['pos']}">CORRECT</strong> · Non-optional decision layer of a $5T+ defense complex</div>""", unsafe_allow_html=True)
+
+    st.write("")
+    lc, rc = st.columns([1, 1])
+    with lc:
+        growth = st.slider("Revenue growth (%/yr)", 10, 50, 30, 5, key="val_growth", help="How fast does Palantir grow each year?")
+        margin = st.slider("Cash kept per dollar (%)", 20, 65, 50, 5, key="val_margin", help="How much profit does Palantir keep?")
+        base_rev = 4475
+        years = 5
+        proj_rev = base_rev * (1 + growth/100) ** years
+        proj_fcf = proj_rev * (margin / 100)
+        terminal_ev = proj_fcf * 25
+        shares = 2350
+        implied = terminal_ev / shares
+        current = MARKET_DATA.get('current_price', 152.77)
+        upside = (implied - current) / current * 100
+        up_color = B["pos"] if upside > 0 else B["neg"]
+
+        st.markdown(f"""<div style="font-family:Inter,sans-serif;">
+          <div style="color:{B['text']};font-size:0.9rem;">FY2030 Revenue → ${proj_rev:,.0f}M</div>
+          <div style="color:{B['navy']};font-weight:700;font-size:1.1rem;margin:4px 0;">Implied Price → ${implied:,.0f}</div>
+          <div style="color:{up_color};font-weight:700;font-size:0.9rem;">vs Today → {upside:+.0f}%</div>
+          <div style="color:{B['text']};font-size:0.8rem;margin-top:12px;line-height:1.4;">
+            If Palantir grows {growth}% per year and keeps {margin}¢ of every dollar,
+            the stock is worth ~${implied:.0f} in 5 years.</div>
+        </div>""", unsafe_allow_html=True)
+
+    with rc:
+        vol = st.slider("Uncertainty (%)", 10, 80, 40, 10, key="val_vol", help="Higher = wider range of possible outcomes")
+        np.random.seed(42)
+        n = 5000
+        g = np.random.normal(growth/100, vol/100, (n, years))
+        sims = base_rev * np.cumprod(1 + g, axis=1)[:, -1]
+        sim_prices = (sims * (margin/100) * 25) / shares
+        
+        fig = go.Figure()
+        fig.add_trace(go.Histogram(x=sim_prices, nbinsx=40, marker_color=C[0], opacity=0.7))
+        fig.add_vline(x=current, line_dash="dash", line_color=B["neg"], annotation_text="Current")
+        med = float(np.median(sim_prices))
+        fig.add_vline(x=med, line_dash="dash", line_color=B["pos"], annotation_text="Median")
+        al(fig, "", 220)
+        fig.update_layout(xaxis_title="Implied Price ($)", yaxis_visible=False, showlegend=False, margin=dict(t=10, b=10, l=10, r=10))
+        st.plotly_chart(fig, use_container_width=True)
+        
+        prob = (sim_prices > current).mean() * 100
+        pc = B["pos"] if prob >= 60 else B["gold"] if prob >= 40 else B["neg"]
+        st.markdown(f"""
+        <div style="display:flex;justify-content:space-between;font-family:Inter,sans-serif;font-size:0.75rem;text-align:center;">
+          <div><div style="color:{B['muted']};">Median</div><div style="font-weight:700;color:{B['text']};">${med:,.0f}</div></div>
+          <div><div style="color:{B['muted']};">% > Current</div><div style="font-weight:700;color:{pc};">{prob:.0f}%</div></div>
+          <div><div style="color:{B['muted']};">10th–90th</div><div style="font-weight:700;color:{B['text']};">${np.percentile(sim_prices,10):,.0f}–${np.percentile(sim_prices,90):,.0f}</div></div>
+        </div>""", unsafe_allow_html=True)
+
+    with st.expander("Peer multiple comparison"):
+        st.dataframe(pd.DataFrame([
+            {"Company": "Palantir", "Type": "Software Prime", "EV/Rev": "82×", "FCF Margin": "51%", "Rule of 40": "107"},
+            {"Company": "Snowflake", "Type": "SaaS", "EV/Rev": "15×", "FCF Margin": "28%", "Rule of 40": "54"},
+            {"Company": "Databricks", "Type": "SaaS (private)", "EV/Rev": "~18×", "FCF Margin": "N/A", "Rule of 40": "N/A"},
+            {"Company": "C3.ai", "Type": "SaaS", "EV/Rev": "12×", "FCF Margin": "-15%", "Rule of 40": "7"},
+            {"Company": "Booz Allen", "Type": "Defense", "EV/Rev": "2×", "FCF Margin": "8%", "Rule of 40": "21"},
+            {"Company": "Leidos", "Type": "Defense", "EV/Rev": "1.5×", "FCF Margin": "7%", "Rule of 40": "16"},
+        ]), use_container_width=True, hide_index=True)
 
 
-# ═══════════════════════════════════════════════════════════════════════════
-# STEP 9 — IS PALANTIR ONE OF ONE?
-# ═══════════════════════════════════════════════════════════════════════════
-def _s9(B, C, sr, cbox, cap, ph, al):
-    ph("Is there any other company positioned like Palantir?",
-       "No direct analogue exists.",
-       "That is the bull case. The bear case: uniqueness has a price — already embedded in the stock.")
-    st.markdown(f"""
-    <table style="width:100%;border-collapse:collapse;font-family:Inter,sans-serif;font-size:0.88rem;margin:12px 0;">
-      <thead><tr style="border-bottom:2px solid {B['border']};">
-        <th style="text-align:left;padding:8px;color:{B['muted']};">#</th>
-        <th style="text-align:left;padding:8px;color:{B['muted']};">Criterion</th>
-        <th style="text-align:center;padding:8px;color:{B['muted']};">Palantir</th>
-        <th style="text-align:left;padding:8px;color:{B['muted']};">Nearest</th>
-      </tr></thead>
-      <tbody>
-        <tr style="border-bottom:1px solid {B['border']};"><td style="padding:8px;">1</td><td style="padding:8px;">IL5/IL6 + FedRAMP High across all platforms</td>
-          <td style="padding:8px;text-align:center;background:{B['pos']};color:#fff;border-radius:4px;">✅</td><td style="padding:8px;background:{B['sfa']};">Leidos (partial)</td></tr>
-        <tr style="border-bottom:1px solid {B['border']};"><td style="padding:8px;">2</td><td style="padding:8px;">Cloud + air-gap from single control plane</td>
-          <td style="padding:8px;text-align:center;background:{B['pos']};color:#fff;border-radius:4px;">✅</td><td style="padding:8px;background:{B['sfa']};">None confirmed</td></tr>
-        <tr style="border-bottom:1px solid {B['border']};"><td style="padding:8px;">3</td><td style="padding:8px;">Ontology-first digital twin</td>
-          <td style="padding:8px;text-align:center;background:{B['pos']};color:#fff;border-radius:4px;">✅</td><td style="padding:8px;background:{B['sfa']};">Databricks (diff approach)</td></tr>
-        <tr style="border-bottom:1px solid {B['border']};"><td style="padding:8px;">4</td><td style="padding:8px;">LLM on classified data with audit trail</td>
-          <td style="padding:8px;text-align:center;background:{B['pos']};color:#fff;border-radius:4px;">✅</td><td style="padding:8px;background:{B['sfa']};">None at IL5+</td></tr>
-        <tr><td style="padding:8px;">5</td><td style="padding:8px;">20+ year classified track record</td>
-          <td style="padding:8px;text-align:center;background:{B['pos']};color:#fff;border-radius:4px;">✅</td><td style="padding:8px;background:{B['sfa']};">Booz Allen (services)</td></tr>
-      </tbody>
-    </table>""", unsafe_allow_html=True)
-    cbox("Verdict", "On all five criteria, no competitor meets the same bar. That explains why the market "
-         "treats Palantir differently.", "v")
-    cbox("Counterpoint", "'One of one' is a moat argument, not a valuation argument. Whether the moat justifies "
-         "81x revenue is the subject of the five chapters that follow.", "c")
-    sr()
-    st.markdown(f"""
-    <div style="background:{B['maroon']};color:#FFF;border-radius:10px;padding:28px 32px;margin-bottom:16px;">
-      <div style="font-family:'Source Serif 4',Georgia,serif;font-size:1.2rem;font-weight:700;margin-bottom:10px;">
-        The Investigation Begins</div>
-      <div style="font-family:Inter,sans-serif;font-size:0.92rem;line-height:1.65;color:rgba(255,255,255,0.85);">
-        This page established the context. Navigate to The Market Puzzle to begin the evidence.</div>
-      <div style="margin-top:18px;display:flex;gap:10px;flex-wrap:wrap;">
-        <span style="border:1px solid {B['gold']};color:#FFF;border-radius:20px;background:transparent;padding:5px 16px;font-family:Inter,sans-serif;font-size:0.82rem;">The Market Puzzle</span>
-        <span style="border:1px solid {B['gold']};color:#FFF;border-radius:20px;background:transparent;padding:5px 16px;font-family:Inter,sans-serif;font-size:0.82rem;">What Palantir Does</span>
-        <span style="border:1px solid {B['gold']};color:#FFF;border-radius:20px;background:transparent;padding:5px 16px;font-family:Inter,sans-serif;font-size:0.82rem;">The Bull Case</span>
-      </div>
-      <div style="margin-top:10px;display:flex;gap:10px;flex-wrap:wrap;">
-        <span style="border:1px solid {B['gold']};color:#FFF;border-radius:20px;background:transparent;padding:5px 16px;font-family:Inter,sans-serif;font-size:0.82rem;">The Bear Case</span>
-        <span style="border:1px solid {B['gold']};color:#FFF;border-radius:20px;background:transparent;padding:5px 16px;font-family:Inter,sans-serif;font-size:0.82rem;">The Valuation Test</span>
-        <span style="border:1px solid {B['gold']};color:#FFF;border-radius:20px;background:transparent;padding:5px 16px;font-family:Inter,sans-serif;font-size:0.82rem;">The Verdict</span>
-      </div>
-      <div style="margin-top:16px;font-size:0.75rem;color:rgba(200,168,180,0.85);font-family:Inter,sans-serif;">
-        Data sources: SEC EDGAR, Palantir IR, DISA records, NATO procurement, U.S. Army contracts</div>
+def _s6(B, C, sr, cbox, cap, ph, al):
+    lc, rc = st.columns([1, 1])
+    with lc:
+        st.markdown(f"""
+        <div style="font-family:Inter,sans-serif;margin-bottom:16px;">
+          <div style="background:{B['surface']};border-left:4px solid {B['navy']};border-radius:6px;padding:8px 12px;font-size:0.78rem;">
+            <strong style="color:{B['maroon']}">①</strong> <strong style="color:{B['navy']}">DATA INTEGRATION</strong><br>
+            <span style="color:{B['text']}">Foundry connects every source into a single ontology layer</span>
+          </div>
+          <div style="text-align:center;color:{B['muted']};font-size:0.8rem;padding:2px 0;">↓</div>
+          <div style="background:{B['surface']};border-left:4px solid {B['navy']};border-radius:6px;padding:8px 12px;font-size:0.78rem;">
+            <strong style="color:{B['maroon']}">②</strong> <strong style="color:{B['navy']}">DIGITAL TWIN CREATED</strong><br>
+            <span style="color:{B['text']}">The ontology becomes the company's operational model</span>
+          </div>
+          <div style="text-align:center;color:{B['muted']};font-size:0.8rem;padding:2px 0;">↓</div>
+          <div style="background:{B['surface']};border-left:4px solid {B['navy']};border-radius:6px;padding:8px 12px;font-size:0.78rem;">
+            <strong style="color:{B['maroon']}">③</strong> <strong style="color:{B['navy']}">AIP DEPLOYED ON TOP</strong><br>
+            <span style="color:{B['text']}">LLMs on customer's own data, behind their firewall</span>
+          </div>
+          <div style="text-align:center;color:{B['muted']};font-size:0.8rem;padding:2px 0;">↓</div>
+          <div style="background:{B['surface']};border-left:4px solid {B['navy']};border-radius:6px;padding:8px 12px;font-size:0.78rem;">
+            <strong style="color:{B['maroon']}">④</strong> <strong style="color:{B['navy']}">COMPOUNDING LOCK-IN</strong><br>
+            <span style="color:{B['text']}">Replacement = rebuild ontology + retrain org + re-accredit AI</span>
+          </div>
+          <div style="text-align:center;color:{B['muted']};font-size:0.75rem;padding:2px 0;">↻ loops back to ①</div>
+        </div>
+        <div style="display:flex;gap:4px;flex-wrap:wrap;">
+            <span style="background:{B.get('surface_alt', B.get('border', '#E0E0E0'))};color:{B['text']};border-radius:12px;padding:2px 8px;font-size:0.75rem;">Airbus — 4× A350</span>
+            <span style="background:{B.get('surface_alt', B.get('border', '#E0E0E0'))};color:{B['text']};border-radius:12px;padding:2px 8px;font-size:0.75rem;">NHS England</span>
+            <span style="background:{B.get('surface_alt', B.get('border', '#E0E0E0'))};color:{B['text']};border-radius:12px;padding:2px 8px;font-size:0.75rem;">Morgan Stanley</span>
+            <span style="background:{B.get('surface_alt', B.get('border', '#E0E0E0'))};color:{B['text']};border-radius:12px;padding:2px 8px;font-size:0.75rem;">Chevron</span>
+            <span style="background:{B.get('surface_alt', B.get('border', '#E0E0E0'))};color:{B['text']};border-radius:12px;padding:2px 8px;font-size:0.75rem;">Ferrari F1</span>
+        </div>
+        """, unsafe_allow_html=True)
+
+    with rc:
+        f1, f2 = st.columns(2)
+        with f1:
+            fig1 = go.Figure(go.Bar(x=["FY2023", "FY2024", "FY2025"], y=[70, 100, 137], marker_color=B["pos"], text=[70, 100, 137], textposition="inside"))
+            al(fig1, "US Commercial Growth YoY (%)", 140)
+            fig1.update_layout(margin=dict(t=25, b=0, l=0, r=0))
+            st.plotly_chart(fig1, use_container_width=True)
+        with f2:
+            rev_years = ["2020","2021","2022","2023","2024","2025"]
+            revenues = [1093, 1542, 1906, 2225, 2866, 4475]
+            if "Total Revenue" in INCOME_STATEMENT:
+                revenues[-len(INCOME_STATEMENT["Total Revenue"]):] = list(INCOME_STATEMENT["Total Revenue"].values)
+            fig2 = go.Figure(go.Bar(x=rev_years, y=revenues, marker_color=C[0]))
+            al(fig2, "Revenue ($M)", 140)
+            fig2.update_layout(margin=dict(t=25, b=0, l=0, r=0))
+            st.plotly_chart(fig2, use_container_width=True)
+            
+        st.markdown(f"""
+        <div style="background:{B['pos']};border-radius:10px;padding:16px 24px;text-align:center;margin-top:12px;font-family:Inter,sans-serif;">
+            <div style="color:#FFF;font-size:1.8rem;font-weight:800;letter-spacing:0.12em;">BUY</div>
+            <div style="color:#FFF;font-size:0.85rem;margin:4px 0;">PALANTIR TECHNOLOGIES (PLTR)</div>
+            <div style="color:rgba(255,255,255,0.9);font-size:0.78rem;">The moat is structural. The price requires conviction.</div>
+        </div>
+        """, unsafe_allow_html=True)
+        
+    st.write("")
+    with st.expander("Investment thesis — 6 pillars"):
+        pcols = st.columns(3)
+        pillars = [
+            ("01", "Structural Moat", "IL6-only CD platform. 20+ yr classified. Replacing PLTR = replacing 4 layers."),
+            ("02", "Financial Inflection", "Rule of 40 = 107. FCF 51%. CAGR 32.6%. Zero debt, $7.2B cash."),
+            ("03", "AI Tailwind", "AIP April 2023. US Commercial 137% YoY. Boot camp converts in weeks."),
+            ("04", "Defense Supercycle", "$10B Army contract. NATO Maven. Global defense $2.7T→$5.6T by 2035."),
+            ("05", "No True Peer", "All 5 structural criteria: zero competitors meet the bar."),
+            ("06", "Risks Manageable", "Bear case temporally distant (5–7 yr). SBC declining as % rev. GAAP profitable.")
+        ]
+        for i, (num, ptitle, pbody) in enumerate(pillars):
+            with pcols[i % 3]:
+                st.markdown(f"""
+                <div style="background:{B['surface']};border-top:3px solid {B['maroon']};border-radius:0 0 6px 6px;padding:10px;margin-bottom:8px;font-family:Inter,sans-serif;">
+                    <span style="color:{B['maroon']};font-weight:700;font-size:1.1rem;margin-right:6px;">{num}</span>
+                    <span style="color:{B['navy']};font-weight:700;font-size:0.85rem;">{ptitle}</span>
+                    <div style="color:{B['text']};font-size:0.78rem;margin-top:4px;line-height:1.4;">{pbody}</div>
+                </div>
+                """, unsafe_allow_html=True)
+                
+    with st.expander("'One of One' structural evidence"):
+        df = pd.DataFrame([
+            {"#": 1, "Criterion": "IL5/IL6 + FedRAMP High across all platforms", "Palantir": "✅", "Nearest": "Leidos (partial)"},
+            {"#": 2, "Criterion": "Cloud + air-gap from single control plane", "Palantir": "✅", "Nearest": "None confirmed"},
+            {"#": 3, "Criterion": "Ontology-first digital twin", "Palantir": "✅", "Nearest": "Databricks (diff)"},
+            {"#": 4, "Criterion": "LLM on classified data with audit trail", "Palantir": "✅", "Nearest": "None at IL5+"},
+            {"#": 5, "Criterion": "20+ yr classified track record", "Palantir": "✅", "Nearest": "Booz Allen (services)"}
+        ])
+        st.dataframe(df.style.map(lambda x: f"background-color: {B['pos'][:7]}33" if "✅" in str(x) else "", subset=["Palantir"]), use_container_width=True, hide_index=True)
+        
+    st.markdown(f"""<div style="font-family:Inter,sans-serif;font-size:0.72rem;color:{B['muted']};text-align:center;margin-top:16px;">
+        Data: SEC EDGAR · Palantir IR · DISA · NATO · U.S. Army | MBAN5570 · Sobey School of Business · Dr. Mohammad M. Rahaman
     </div>""", unsafe_allow_html=True)
